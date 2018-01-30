@@ -37,15 +37,13 @@ public class Spielbrett {
         DatabaseConnector.createTable(Struktur.Knoten);
 		DatabaseConnector.createTable(Struktur.CORNER);
 		
-	//	for(int i = 0; i < Konstanten.ANZ_FELDER_AUF_SPIELBRETT; i++)
-	//	{
+	
 			int pk = DatabaseConnector.addField();
-			for(int x =0; x<5;x++)
+			for(int x = 0; x <5; x++)
 			{
-				System.out.println(pk +  " pk");
 				DatabaseConnector.addCorner(pk);
 			}
-		//}		
+				
 	}
 	public void updateRohstoffeNachWurf(int augenZahl)
 	{

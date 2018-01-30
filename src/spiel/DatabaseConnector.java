@@ -71,7 +71,7 @@ public class DatabaseConnector {
                 /*System.out.println(rs.getString("TABLE_NAME"));*/
                 sql = "DELETE  FROM " + tableNameString;
                 stmt.executeUpdate(sql); 
-                System.out.println(sql);
+                //System.out.println(sql);
                 System.out.println("[***] Table "+ tableNameString + " cleared");
 			}else{
                 System.out.println("[***] Table " + tableNameString + " does not exist"); 
@@ -83,7 +83,7 @@ public class DatabaseConnector {
                 }
 			}
 			System.out.println("[***] Table " + tableNameString + " created"); 
-			System.out.println(sql);
+			//System.out.println(sql);
 			stmt.executeUpdate(sql); 	
 			
 		}catch(Exception ex){
@@ -103,7 +103,7 @@ public class DatabaseConnector {
 		Connection c = null;
 		Statement stmt = null;
 		int primaryKey = -1;
-		String query = "INSERT INTO " + Struktur.FIELD + "( NAME,ROHSTOFF) VALUES(?, ?)";
+		String sql = "INSERT INTO " + Struktur.FIELD + "( NAME,ROHSTOFF) VALUES(?, ?)";
 
 		try {			   
 			c = DriverManager.getConnection(Konstanten.POSTGRES_URL,
@@ -111,14 +111,13 @@ public class DatabaseConnector {
 							Konstanten.POSTGRES_PASSWORD
 							);
 	   
-			c.setAutoCommit(false);	
-			PreparedStatement pstmt = c.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement pstmt = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 			
-			pstmt.setString(1, "bar");
-			pstmt.setString(2, "baz");
+			pstmt.setString(1, "Erz");
+			pstmt.setString(2, "Erz");
 			
 			pstmt.executeUpdate();
-			
+			System.out.println(sql);
 			ResultSet rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {
 				primaryKey = rs.getInt(1);
@@ -135,7 +134,7 @@ public class DatabaseConnector {
 			  if(c != null) c.close();
 		  }catch(Exception e) {}
 	   }
-		return primaryKey -1;
+		return primaryKey;
 	}
 
 	public static int addCorner(int pkField) {
