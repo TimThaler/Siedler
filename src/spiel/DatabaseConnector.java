@@ -55,7 +55,6 @@ public class DatabaseConnector {
 	public static void createTable(Struktur tableName) {
 		String tableNameString = null;
 		String setupParams = null;
-		String[] types = {"TABLE"};
 		
 		Connection c = null;
 		Statement stmt = null;
@@ -86,7 +85,7 @@ public class DatabaseConnector {
 					break;
 			}
 			
-			rs =  dbmd.getTables(null, null, tableNameString.toLowerCase()  , types);
+			rs =  dbmd.getTables(null, null, tableNameString.toLowerCase(), new String[] {"TABLE"});
 			stmt = c.createStatement(); 
 			String sql = null;
 			
