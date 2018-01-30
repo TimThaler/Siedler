@@ -23,32 +23,33 @@ public class DatabaseConnector {
 			c.setAutoCommit(false);	   
 			Statement stmt = c.createStatement();	   
 			String sql = "INSERT INTO FELD(NAME,ROHSTOFF)" +  "VALUES('Anfang','Erz');";
-		   System.out.println(sql);
-		   stmt.executeUpdate(sql);	
+			System.out.println(sql);
+  		    stmt.executeUpdate(sql);	
 		   
-		   stmt.close();
-		   c.commit();
-		   c.close();
+		    stmt.close();
+		    c.commit();
+		    c.close();
 	   }catch(Exception ex){
-		   System.err.println(ex.getClass().getName() + " " + ex.getMessage());
-		   System.exit(0);
+		    System.err.println(ex.getClass().getName() + " " + ex.getMessage());
+            System.exit(0);
 	   }
 	}
+	
 	public static void connectToSiedlerDatabase()
 	{
 		try {
-			   Class.forName("org.postgresql.Driver");
-			   Connection c = DriverManager
-			      .getConnection("jdbc:postgresql://localhost:5432/siedler",
-			      "postgres", "123");
-			   System.out.println("[***] Opened database successfully");
-			  
-			   c.close();			   
-			} catch (Exception e) {
-			   /*e.printStackTrace();*/
-			   System.err.println(e.getClass().getName()+": "+e.getMessage());
-			   System.exit(0);
-			}
+		   Class.forName("org.postgresql.Driver");
+		   Connection c = DriverManager
+		      .getConnection("jdbc:postgresql://localhost:5432/siedler",
+		      "postgres", "123");
+		   System.out.println("[***] Opened database successfully");
+		  
+		   c.close();			   
+		} catch (Exception e) {
+		   /*e.printStackTrace();*/
+		   System.err.println(e.getClass().getName()+": "+e.getMessage());
+		   System.exit(0);
+		}
 	}
 
 	public static void createTable(Struktur tableName) {
@@ -61,9 +62,12 @@ public class DatabaseConnector {
 		DatabaseMetaData dbmd = null;
 		ResultSet rs = null;
 
-		try {			
-			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/siedler",
-					"postgres", "123");
+		try {	
+			c = DriverManager
+					.getConnection(Konstanten.POSTGRES_URL,
+							Konstanten.POSTGRES_USER,
+							Konstanten.POSTGRES_PASSWORD
+							);
 			
 			dbmd = c.getMetaData();
 		
