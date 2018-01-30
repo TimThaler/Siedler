@@ -11,6 +11,29 @@ import interfaces.Konstanten;
 
 public class DatabaseConnector {
 	
+	public static void addFeld()
+	{
+		try {			   
+			Connection c = DriverManager
+					.getConnection("jdbc:postgresql://localhost:5432/sandbox",
+							"postgres", "123");
+	   
+			c.setAutoCommit(false);	   
+			Statement stmt = c.createStatement();	   
+			String sql = "INSERT INTO FELD(NAME,ROHSTOFF)" + 
+	   
+			   "VALUES('Anfang','Erz');";
+		   System.out.println(sql);
+		   stmt.executeUpdate(sql);	
+		   
+		   stmt.close();
+		   c.commit();
+		   c.close();
+	   }catch(Exception ex){
+		   System.err.println(ex.getClass().getName() + " " + ex.getMessage());
+		   System.exit(0);
+	   }
+	}
 	public static void connectToSiedlerDatabase()
 	{
 		try {
@@ -63,9 +86,6 @@ public class DatabaseConnector {
 			stmt = c.createStatement(); 
 			String sql = null;
 			
-			
-			
-			
 			if (rs.next()) {	
 				System.out.println("[***] Table " + tableNameString + " exists");
 						
@@ -76,10 +96,11 @@ public class DatabaseConnector {
 			}else{
                 System.out.println("[***] Table " + tableNameString + " does not exist");                     	
         		sql = "Create table "+ tableNameString  + 
-        		" (ID INT PRIMARY KEY NOT NULL," +
+        		" (ID SERIAL," +
         		setupParams +
         		");";                     	    
             }
+			System.out.println(sql);
 			stmt.executeUpdate(sql); 
       	    stmt.close();
 			c.close();			
