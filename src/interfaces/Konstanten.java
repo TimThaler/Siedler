@@ -1,7 +1,7 @@
 package interfaces;
 
 public interface Konstanten {
-	public static final String POSTGRES_URL = "jdbc:postgresql://localhost:5432/sandbox";
+	public static final String POSTGRES_URL = "jdbc:postgresql://localhost:5432/siedler";
 	public static final String POSTGRES_USER = "postgres";
 	public static final String POSTGRES_PASSWORD = "123";
 	
@@ -22,7 +22,7 @@ public interface Konstanten {
 			" Rohstoff TEXT NOT NULL";
 	
 	public static final String POSTGRES_CREATE_TABLE_PREFIX =
-			" (ID SERIAL,";
+			" (ID SERIAL PRIMARY KEY,";
 	
 	public static final String POSTGRES_CREATE_TABLE_SUFFFIX =
 			");";
