@@ -15,14 +15,14 @@ public class DatabaseConnector {
 	{
 		try {			   
 			Connection c = DriverManager
-					.getConnection("jdbc:postgresql://localhost:5432/sandbox",
-							"postgres", "123");
+					.getConnection(Konstanten.POSTGRES_URL,
+							Konstanten.POSTGRES_USER,
+							Konstanten.POSTGRES_PASSWORD
+							);
 	   
 			c.setAutoCommit(false);	   
 			Statement stmt = c.createStatement();	   
-			String sql = "INSERT INTO FELD(NAME,ROHSTOFF)" + 
-	   
-			   "VALUES('Anfang','Erz');";
+			String sql = "INSERT INTO FELD(NAME,ROHSTOFF)" +  "VALUES('Anfang','Erz');";
 		   System.out.println(sql);
 		   stmt.executeUpdate(sql);	
 		   
