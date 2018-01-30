@@ -15,6 +15,7 @@ implements interfaces.Konstanten{
 		DatabaseConnector.createTable(Struktur.Feld);
 		DatabaseConnector.createTable(Struktur.Knoten);
 		DatabaseConnector.createTable(Struktur.Ecke);
+		DatabaseConnector.addFeld();
 			
 		
 		/**
@@ -62,7 +63,7 @@ implements interfaces.Konstanten{
 				}
 			}
 		}else {
-			spielbrett.updateRohstoffeNachWurf(wuerfelZahl);
+		//	spielbrett.updateRohstoffeNachWurf(wuerfelZahl);
 		}
 		
 		
