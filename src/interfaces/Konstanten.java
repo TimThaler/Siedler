@@ -9,7 +9,7 @@ public interface Konstanten {
 	public static final int MAX_KARTEN_BEI_RAEUBER = 7;
 	public static final int GESAMT_PUNKTE_ZUM_GEWINNEN = 12;
 	public static final int ANZ_FELDER_AUF_SPIELBRETT = 9;
-	public static final String FELDTABLESETUP = 
+	public static final String FIELD_TABLE_SETUP = 
 			" Name TEXT NOT NULL," +
 			" Rohstoff TEXT NOT NULL" 
 					;
@@ -17,9 +17,10 @@ public interface Konstanten {
 	public static final String KNOTENTABLESETUP = 
 			" Name TEXT NOT NULL," +
 			" Rohstoff TEXT NOT NULL";
+	
 	public static final String ECKENTABLESETUP = 
-			" Name TEXT NOT NULL," +
-			" Rohstoff TEXT NOT NULL";
+			" feld_id integer REFERENCES field(id)";
+					
 	
 	public static final String POSTGRES_CREATE_TABLE_PREFIX =
 			" (ID SERIAL PRIMARY KEY,";

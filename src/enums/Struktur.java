@@ -1,7 +1,7 @@
 package enums;
 
 public enum Struktur {
-	Feld,
+	FIELD,
 	Knoten,
-	Ecke
+	CORNER
 }

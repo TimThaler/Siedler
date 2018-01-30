@@ -1,6 +1,7 @@
 package spiel;
 
 import enums.Struktur;
+import interfaces.Konstanten;
 
 
 public class Spiel 
@@ -9,15 +10,6 @@ implements interfaces.Konstanten{
 	
 	public static void main(String[] args)
 	{
-		
-		DatabaseConnector.connectToSiedlerDatabase();
-		
-		DatabaseConnector.createTable(Struktur.Feld);
-		DatabaseConnector.createTable(Struktur.Knoten);
-		DatabaseConnector.createTable(Struktur.Ecke);
-		DatabaseConnector.addFeld();
-			
-		
 		/**
 		 * ToDo: 
 		 * Spielbrett baut sich selber
