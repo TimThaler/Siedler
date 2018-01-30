@@ -13,25 +13,29 @@ public class DatabaseConnector {
 	
 	public static void addFeld()
 	{
+		Connection c = null;
+		Statement stmt = null;
 		try {			   
-			Connection c = DriverManager
+			c = DriverManager
 					.getConnection(Konstanten.POSTGRES_URL,
 							Konstanten.POSTGRES_USER,
 							Konstanten.POSTGRES_PASSWORD
 							);
 	   
 			c.setAutoCommit(false);	   
-			Statement stmt = c.createStatement();	   
-			String sql = "INSERT INTO FELD(NAME,ROHSTOFF)" +  "VALUES('Anfang','Erz');";
-			System.out.println(sql);
+			stmt = c.createStatement();	   
+			String sql = "INSERT INTO FELD(NAME,ROHSTOFF)" +  "VALUES('Anfang','Erz');";			
   		    stmt.executeUpdate(sql);	
-		   
-		    stmt.close();
 		    c.commit();
-		    c.close();
+		   
 	   }catch(Exception ex){
 		    System.err.println(ex.getClass().getName() + " " + ex.getMessage());
             System.exit(0);
+	   }finally {
+		  try {
+			  if(stmt != null) stmt.close();
+			  if(c != null) c.close();
+		  }catch(Exception e) {}
 	   }
 	}
 	
@@ -104,13 +108,17 @@ public class DatabaseConnector {
         		");";                     	    
             }
 			System.out.println(sql);
-			stmt.executeUpdate(sql); 
-      	    stmt.close();
-			c.close();			
+			stmt.executeUpdate(sql); 	
 		}catch(Exception ex){
 			ex.printStackTrace();
 			System.err.println(ex.getClass().getName() + ": " + ex.getMessage());
 			System.exit(0);
-		}		
+		}finally {
+			try {
+			if(stmt != null) stmt.close();
+			if(c != null) c.close();
+			if(rs != null) rs.close();
+			}catch(Exception e) {}
+		}
 	}
 }
