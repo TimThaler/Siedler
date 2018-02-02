@@ -27,6 +27,30 @@ public class DatabaseConnector {
 		}
 	}
 	
+	public static void clearTable(Struktur struktur) {
+		Connection c = null;
+		Statement stmt = null;
+		String sql = "DELETE  FROM " + struktur.toString().toLowerCase();
+        
+		try {
+			c = DriverManager
+					.getConnection(Konstanten.POSTGRES_URL,
+							Konstanten.POSTGRES_USER,
+							Konstanten.POSTGRES_PASSWORD);
+			
+			stmt = c.createStatement();
+			stmt.executeUpdate(sql);
+			System.out.println("[***] Table "+ struktur.toString() + " cleared");
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			}finally {
+			   
+			    try { stmt.close(); } catch (Exception e) { /* ignored */ }
+			    try { c.close(); } catch (Exception e) { /* ignored */ }
+			}
+
+
+	}
 	public boolean tableExists(Struktur struktur){
 		try {
 			DatabaseMetaData dmd = null;
@@ -108,7 +132,7 @@ public class DatabaseConnector {
                 //sql = "DELETE  FROM " + tableName;
                 stmt.executeUpdate(sql); 
                 //System.out.println(sql);
-                System.out.println("[***] Table "+ tableName + " cleared");
+
 			}else{
                 System.out.println("[***] Table " + tableName + " does not exist"); 
                 if (struktur == Struktur.CORNER)

@@ -33,8 +33,9 @@ public class Spielbrett {
 		
         DatabaseConnector.connectToSiedlerDatabase();
         DatabaseConnector dbc = new DatabaseConnector();
-        if(!dbc.tableExists(Struktur.FIELD))
-        {
+        if(dbc.tableExists(Struktur.FIELD)){
+        	DatabaseConnector.clearTable(Struktur.FIELD);
+        }else {
         	dbc.createTable(Struktur.FIELD);
         }
         dbc.tableExists(Struktur.CORNER);
