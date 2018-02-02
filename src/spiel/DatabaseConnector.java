@@ -5,33 +5,69 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import enums.Struktur;
 import interfaces.Konstanten;
 
 public class DatabaseConnector {
+	Connection c = null;
+
+	public DatabaseConnector(){
+		try{
+			this.c = DriverManager
+					.getConnection(Konstanten.POSTGRES_URL,
+							Konstanten.POSTGRES_USER,
+							Konstanten.POSTGRES_PASSWORD);
+		}catch(Exception e){
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+		}
+	}
 	
+	public boolean tableExists(Struktur struktur){
+		try {
+			DatabaseMetaData dmd = null;
+			dmd = c.getMetaData();
+			String tableName = struktur.toString().toLowerCase();
+
+			ResultSet rs = dmd.getTables(null, null,"%", new String[] {"TABLE"});
+			while (rs.next()){			
+				if(rs.getString(3).equals(tableName)){
+					return true;
+				}
+
+			}
+			return false;
+		}catch(SQLException e) {System.exit(0);}
+		return false;
+	}
+
 	public static void connectToSiedlerDatabase()
 	{
 		try {
-		   Connection c = DriverManager
-		      .getConnection("jdbc:postgresql://localhost:5432/siedler",
-		      "postgres", "123");
-		   System.out.println("[***] Opened database successfully");
-		  
-		   c.close();			   
+			Connection c = DriverManager
+					.getConnection(Konstanten.POSTGRES_URL,
+							Konstanten.POSTGRES_USER,
+							Konstanten.POSTGRES_PASSWORD);
+			System.out.println("[***] Opened database successfully");
+
+
+
+			c.close();			   
 		} catch (Exception e) {
-		   /*e.printStackTrace();*/
-		   System.err.println(e.getClass().getName()+": "+e.getMessage());
-		   System.exit(0);
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
 		}
 	}
 
-	public static void createTable(Struktur tableName) {
-		String tableNameString = null;
+	public static void 	 createTable(Struktur struktur) {
+		String tableName = null;
 		String setupParams = null;
-		
+
 		Connection c = null;
 		Statement stmt = null;
 		DatabaseMetaData dbmd = null;
@@ -46,47 +82,53 @@ public class DatabaseConnector {
 			
 			dbmd = c.getMetaData();
 		
-			switch (tableName){
+			switch (struktur){
 				case FIELD:
-					tableNameString = "field";
+					tableName = "feld";
 					setupParams = Konstanten.FIELD_TABLE_SETUP;
 					break;
 				case Knoten:
-					tableNameString = "knoten";
+					tableName = "knoten";
 					setupParams = Konstanten.KNOTENTABLESETUP;
 					break;
 				case CORNER:
-					tableNameString = "ecke";
+					tableName = "corner";
 					setupParams = Konstanten.ECKENTABLESETUP;
 					break;
 			}
 			
-			rs =  dbmd.getTables(null, null, tableNameString.toLowerCase(), new String[] {"TABLE"});
+			rs =  dbmd.getTables(null, null, tableName.toLowerCase(), new String[] {"TABLE"});
 			stmt = c.createStatement(); 
 			String sql = null;
 			
 			if (rs.next()) {	
-				System.out.println("[***] Table " + tableNameString + " exists");
+				System.out.println("[***] Table " + tableName + " exists");
 						
-                /*System.out.println(rs.getString("TABLE_NAME"));*/
-                sql = "DELETE  FROM " + tableNameString;
+                //System.out.println(rs.getString("TABLE_NAME"));
+                //sql = "DELETE  FROM " + tableName;
                 stmt.executeUpdate(sql); 
                 //System.out.println(sql);
-                System.out.println("[***] Table "+ tableNameString + " cleared");
+                System.out.println("[***] Table "+ tableName + " cleared");
 			}else{
-                System.out.println("[***] Table " + tableNameString + " does not exist"); 
-                if (tableName == Struktur.CORNER)
+                System.out.println("[***] Table " + tableName + " does not exist"); 
+                if (struktur == Struktur.CORNER)
                 {
                 	sql = "Create table ecke (ID SERIAL UNIQUE, field_id integer REFERENCES field(id));" ;
-                }else if (tableName ==Struktur.FIELD) {
+                }else if (struktur ==Struktur.FIELD) {
                 	sql = "Create table field (ID SERIAL UNIQUE," + setupParams + ");";       
                 }
+                System.out.println(sql + " HELLO ");
+                	stmt.executeUpdate(sql); 	
+    			
 			}
-			System.out.println("[***] Table " + tableNameString + " created"); 
+			System.out.println("[***] Table " + tableName + " created"); 
 			//System.out.println(sql);
-			stmt.executeUpdate(sql); 	
 			
-		}catch(Exception ex){
+		}/*atch(SQLException ex) {
+			
+			System.out.print("Hallo");
+		}*/
+		catch(SQLException ex){
 			ex.printStackTrace();
 			System.err.println(ex.getClass().getName() + ": " + ex.getMessage());
 			System.exit(0);

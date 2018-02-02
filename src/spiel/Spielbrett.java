@@ -32,16 +32,21 @@ public class Spielbrett {
 		}
 		
         DatabaseConnector.connectToSiedlerDatabase();
-        
-        DatabaseConnector.createTable(Struktur.FIELD);
-        DatabaseConnector.createTable(Struktur.Knoten);
+        DatabaseConnector dbc = new DatabaseConnector();
+        if(!dbc.tableExists(Struktur.FIELD))
+        {
+        	dbc.createTable(Struktur.FIELD);
+        }
+        dbc.tableExists(Struktur.CORNER);
+        //DatabaseConnector.createTable(Struktur.FIELD);
+        //DatabaseConnector.createTable(Struktur.Knoten);
 		DatabaseConnector.createTable(Struktur.CORNER);
 		
 	
-			int pk = DatabaseConnector.addField();
+			//int pk = DatabaseConnector.addField();
 			for(int x = 0; x <5; x++)
 			{
-				DatabaseConnector.addCorner(pk);
+				DatabaseConnector.addCorner(1);
 			}
 				
 	}
