@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import enums.Rohstoff;
 import enums.Struktur;
 import interfaces.Konstanten;
 
@@ -93,25 +94,17 @@ public class DatabaseConnector {
 		}
 	}
 
-	public static int addField() {
-		Connection c = null;
-		Statement stmt = null;
+	public int addField(Rohstoff rohstoff) {
 		int primaryKey = -1;
-		String sql = "INSERT INTO " + Struktur.FIELD + "( NAME,ROHSTOFF) VALUES(?, ?)";
+		sql = "INSERT INTO " + Struktur.FIELD + "( NAME,ROHSTOFF) VALUES(?, ?)";
 
 		try {			   
-			c = DriverManager.getConnection(Konstanten.POSTGRES_URL,
-							Konstanten.POSTGRES_USER,
-							Konstanten.POSTGRES_PASSWORD
-							);
-	   
-			PreparedStatement pstmt = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-			
-			pstmt.setString(1, "Erz");
-			pstmt.setString(2, "Erz");
+			PreparedStatement pstmt = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);			
+			pstmt.setString(1, rohstoff.toString());
+			pstmt.setString(2, rohstoff.toString());
 			
 			pstmt.executeUpdate();
-			System.out.println(sql);
+			 
 			ResultSet rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {
 				primaryKey = rs.getInt(1);
@@ -128,15 +121,8 @@ public class DatabaseConnector {
 	}
 
 	public int addCorner(int pkField) {
-		Connection c = null;
-		Statement stmt = null;
-		try {			   
-			c = DriverManager
-					.getConnection(Konstanten.POSTGRES_URL,
-							Konstanten.POSTGRES_USER,
-							Konstanten.POSTGRES_PASSWORD
-							);
-	   
+		 
+		try {	
 			c.setAutoCommit(false);	   
 			stmt = c.createStatement();	   
 			String sql = "INSERT INTO ecke (field_id)" +  "VALUES('"+ pkField +"');";			
@@ -146,7 +132,7 @@ public class DatabaseConnector {
 	   }catch(Exception ex){
 		    System.err.println(ex.getClass().getName() + " " + ex.getMessage());
             System.exit(0);
-	   }
+	   }		
 		return 0;		
 	}
 	
