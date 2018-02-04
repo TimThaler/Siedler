@@ -4,8 +4,8 @@ import java.util.Vector;
 import interfaces.Konstanten;
 
 public class ConnectionPoolManager {
-	 
-	private static ConnectionPoolManager instance = null;
+ 
+	public static ConnectionPoolManager instance = null;
 	public Vector<DatabaseConnector> connectionPool = new Vector<DatabaseConnector>();
 	
 	public static ConnectionPoolManager getInstance()
@@ -21,6 +21,7 @@ public class ConnectionPoolManager {
 	{
 		while(!isConnectionPoolFull())
 		{
+			System.out.println("[***] added dbc object to vector");
 			DatabaseConnector dbc = new DatabaseConnector();
 			connectionPool.addElement(dbc);
 		}
@@ -29,9 +30,9 @@ public class ConnectionPoolManager {
 	public boolean isConnectionPoolFull() {
 		if(connectionPool.size() < Konstanten.MAX_POOL_SIZE)
 		{
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	public synchronized DatabaseConnector getDBCfromPool()
