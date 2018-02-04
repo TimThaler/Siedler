@@ -1,12 +1,5 @@
 package spiel;
 
-import java.util.Enumeration;
-import java.util.Vector;
-
-import enums.Struktur;
-import interfaces.Konstanten;
-
-
 public class Spiel 
 implements interfaces.Konstanten{
 
@@ -15,6 +8,7 @@ implements interfaces.Konstanten{
 	{
 		/**
 		 *   catch(ClassNotFoundException cnfe)
+		 *   catch(RelationNotFoundException rex) {
 		 */
 		/**
 		 * Pool of Connection Elements. Get one if one is free and give it to
@@ -77,6 +71,7 @@ implements interfaces.Konstanten{
 		 * Nach der Bauphase werden die Gesamtpunkte berechnet und 
 		 * so erittelt ob ein Spieler das Spiel gewonnen hat
 		 */
+		cmp.pushDBCtoPool(dbc);
 		cmp.close();
 	}
 	
