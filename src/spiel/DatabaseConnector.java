@@ -138,6 +138,7 @@ public class DatabaseConnector {
 			if(stmt != null) stmt.close();
 			if(c != null) c.close();
 			if(rs != null) rs.close();
+			System.out.println("[***] Database Connector closed");
 		}catch(Exception e) {}
 	}
 }
