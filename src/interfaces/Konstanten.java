@@ -5,6 +5,7 @@ public interface Konstanten {
 	public static final String POSTGRES_USER = "postgres";
 	public static final String POSTGRES_PASSWORD = "123";
 	
+	public static final int MAX_POOL_SIZE = 5;
 	
 	public static final int MAX_KARTEN_BEI_RAEUBER = 7;
 	public static final int GESAMT_PUNKTE_ZUM_GEWINNEN = 12;
