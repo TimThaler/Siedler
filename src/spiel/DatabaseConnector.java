@@ -42,10 +42,13 @@ public class DatabaseConnector {
 			System.out.println("[***] Table "+ struktur.toString() + " cleared");
 		}catch (Exception ex) {
 			ex.printStackTrace();
+			System.err.println(ex.getClass().getName()+": "+ex.getMessage());
+			ex.printStackTrace();
 			}
 	}
 	
 	public boolean tableExists(Struktur struktur){
+		System.out.println("[***] Table exists");
 		try {
 			dmd = c.getMetaData();
 			String tableName = struktur.toString().toLowerCase();
@@ -57,7 +60,11 @@ public class DatabaseConnector {
 
 			}
 			return false;
-		}catch(SQLException e) {System.exit(0);}
+		}catch(SQLException e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.exit(0);
+			}
 		return false;
 	}
 
