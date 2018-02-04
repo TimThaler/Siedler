@@ -1,5 +1,8 @@
 package spiel;
 
+import java.util.Enumeration;
+import java.util.Vector;
+
 import enums.Struktur;
 import interfaces.Konstanten;
 
@@ -10,6 +13,16 @@ implements interfaces.Konstanten{
 	
 	public static void main(String[] args)
 	{
+		/**
+		 *   catch(ClassNotFoundException cnfe)
+		 */
+		/**
+		 * Pool of Connection Elements. Get one if one is free and give it to
+		 * spielbrett
+		 * construktor each object connects to predefinded database 
+		 */
+		ConnectionPoolManager cmp = ConnectionPoolManager.getInstance();
+		DatabaseConnector dbc = cmp.getDBCfromPool();
 		/**
 		 * ToDo: 
 		 * Spielbrett baut sich selber
@@ -28,7 +41,7 @@ implements interfaces.Konstanten{
 		 * wieder wuerfeln
 		 */
 
-		Spielbrett spielbrett = Spielbrett.getInstance(ANZ_FELDER_AUF_SPIELBRETT);
+		Spielbrett spielbrett = Spielbrett.getInstance(ANZ_FELDER_AUF_SPIELBRETT,dbc);
 		SpielModerator moderator = SpielModerator.getInstance();
 		Spieler spieler1 = new Spieler("Tim","rot");
 		Spieler spieler2 = new Spieler("Giu", "gruen");
@@ -64,8 +77,12 @@ implements interfaces.Konstanten{
 		 * Nach der Bauphase werden die Gesamtpunkte berechnet und 
 		 * so erittelt ob ein Spieler das Spiel gewonnen hat
 		 */
+		cmp.close();
 	}
 	
-
+	//for-each element in Pool close connection
+	//for(Enumeration e =connectionPool.elements(); e.hasMoreElements();)
+	//for(Vector v=ConnectionPool.elements())
+	//dbc.close();
 	
 }
