@@ -19,7 +19,7 @@ public class DatabaseConnector {
 	String sql = null;
 	ResultSet rs = null;
 	
-	public DatabaseConnector(){
+	public DatabaseConnector(){		
 		try{
 			this.c = DriverManager
 					.getConnection(Konstanten.POSTGRES_URL,
