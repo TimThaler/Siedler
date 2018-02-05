@@ -46,18 +46,18 @@ public class DatabaseConnector {
 			}
 	}
 	
-	public boolean tableExists(Struktur struktur){
-		System.out.println("[***] Table exists");
+	public boolean tableExists(Struktur struktur){		
 		try {
 			dmd = c.getMetaData();
 			String tableName = struktur.toString().toLowerCase();
 			ResultSet rs = dmd.getTables(null, null,"%", new String[] {"TABLE"});
 			while (rs.next()){			
 				if(rs.getString(3).equals(tableName)){
+					System.out.println("[***] Table " + struktur + " exists");
 					return true;
 				}
-
 			}
+			System.out.println("[***] Table " + struktur + " does not exists");
 			return false;
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -90,11 +90,11 @@ public class DatabaseConnector {
 		
 		try {	
 			dmd = c.getMetaData();
-			String sql = "Create table ecke "
+			String sql = "Create table " + tableName
 					+ "(ID SERIAL UNIQUE, "
 					+ "field_id integer REFERENCES field(id));" ;
 			stmt = c.createStatement(); 
-        	stmt.executeUpdate(sql); 
+			stmt.executeUpdate(sql); 
 			System.out.println("[***] Table " + tableName + " created"); 	
 		}catch(SQLException ex){
 			ex.printStackTrace();
@@ -109,10 +109,8 @@ public class DatabaseConnector {
 
 		try {			   
 			PreparedStatement pstmt = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);			
-			
 			pstmt.setString(1, feld.getRohstoff().toString());
 			pstmt.setInt(2, feld.getFeldWuerfelNummer());
-			
 			pstmt.executeUpdate();
 			 
 			ResultSet rs = pstmt.getGeneratedKeys();
@@ -144,8 +142,7 @@ public class DatabaseConnector {
 		}catch(Exception ex){
 		    System.err.println(ex.getClass().getName() + " " + ex.getMessage());
             System.exit(0);
-		}	
-		
+		}			
 		return primaryKey;
 	}
 	
