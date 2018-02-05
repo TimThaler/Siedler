@@ -5,27 +5,28 @@ import java.util.Vector;
 
 import enums.Rohstoff;
 import enums.Struktur;
+import interfaces.Konstanten;
 
 public class Spielbrett {
 	public static Spielbrett instance = null;
 	public DatabaseConnector dbc = null;
 	private Vector<Feld> felder = null;
 	
-	public static Spielbrett getInstance(int anzFelder, DatabaseConnector dbc)
+	public static Spielbrett getInstance(DatabaseConnector dbc)
 	{
 		if(instance == null){
-			instance = new Spielbrett(anzFelder, dbc);
+			instance = new Spielbrett(dbc);
 		}
 		return instance;
 	}
 	
-	private Spielbrett(int anzFelder, DatabaseConnector dbc)
+	private Spielbrett(DatabaseConnector dbc)
 	{
 		this.dbc = dbc;					
 		this.felder = new Vector<Feld>();
 		Random r = new Random();
 
-		for(int i = 0; i < anzFelder; i++){	
+		for(int i = 0; i < Konstanten.ANZ_FELDER_AUF_SPIELBRETT; i++){	
 			Rohstoff rohstoff = Rohstoff.values()[(r.nextInt(5))];
 			Feld feld = new Feld((r.nextInt(11)+1),rohstoff);
 			felder.addElement(feld);

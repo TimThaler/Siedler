@@ -32,7 +32,7 @@ implements interfaces.Konstanten{
 		
 		ConnectionPoolManager cmp = ConnectionPoolManager.getInstance();
 		DatabaseConnector dbc = cmp.getDBCfromPool();		
-		Spielbrett spielbrett = Spielbrett.getInstance(ANZ_FELDER_AUF_SPIELBRETT,dbc);
+		Spielbrett spielbrett = Spielbrett.getInstance(dbc);
 		SpielModerator moderator = SpielModerator.getInstance();
 		
 		Spieler spieler1 = new Spieler("Giu","blau");
