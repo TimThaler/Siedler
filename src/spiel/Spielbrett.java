@@ -26,12 +26,6 @@ public class Spielbrett {
 		this.felder = new Vector<Feld>();
 		Random r = new Random();
 
-		for(int i = 0; i < Konstanten.ANZ_FELDER_AUF_SPIELBRETT; i++){	
-			Rohstoff rohstoff = Rohstoff.values()[(r.nextInt(5))];
-			Feld feld = new Feld((r.nextInt(11)+1),rohstoff);
-			felder.addElement(feld);
-		}
-		
         if(dbc.tableExists(Struktur.FIELD)){
         	dbc.clearTable(Struktur.FIELD);
         }else{
@@ -43,6 +37,12 @@ public class Spielbrett {
         }else{
         	dbc.createTableCorner();
         }
+        
+        for(int i = 0; i < Konstanten.ANZ_FELDER_AUF_SPIELBRETT; i++){	
+			Rohstoff rohstoff = Rohstoff.values()[(r.nextInt(5))];
+			Feld feld = new Feld((r.nextInt(11)+1),rohstoff);
+			felder.addElement(feld);
+		}
         
         for(Feld f : felder){
         	int primaryKey = dbc.addField(f);

@@ -16,7 +16,6 @@ public class DatabaseConnector {
 	Connection c = null;
 	Statement stmt = null;
 	DatabaseMetaData dmd = null;
-	String sql = null;
 	ResultSet rs = null;
 	
 	public DatabaseConnector(){		
@@ -34,7 +33,7 @@ public class DatabaseConnector {
 	}
 	
 	public void clearTable(Struktur struktur) {
-		sql = "DELETE  FROM " + struktur.toString().toLowerCase();
+		String sql = "DELETE  FROM " + struktur.toString().toLowerCase();
         
 		try {
 			stmt = c.createStatement();
@@ -73,7 +72,7 @@ public class DatabaseConnector {
 		
 		try {	
 			dmd = c.getMetaData();
-			sql = "Create table field (ID SERIAL UNIQUE," + 
+			String sql = "Create table field (ID SERIAL UNIQUE," + 
 					Konstanten.FIELD_TABLE_SETUP
 					+ ");";  			 			 		
 			stmt = c.createStatement(); 
@@ -91,7 +90,7 @@ public class DatabaseConnector {
 		
 		try {	
 			dmd = c.getMetaData();
-			sql = "Create table ecke "
+			String sql = "Create table ecke "
 					+ "(ID SERIAL UNIQUE, "
 					+ "field_id integer REFERENCES field(id));" ;
 			stmt = c.createStatement(); 
@@ -106,7 +105,7 @@ public class DatabaseConnector {
 
 	public int addField(Feld feld) {
 		int primaryKey = -1;
-		sql = "INSERT INTO " + Struktur.FIELD + "( NAME,ROHSTOFF) VALUES(?, ?)";
+		String sql = "INSERT INTO " + Struktur.FIELD + "( NAME,ROHSTOFF) VALUES(?, ?)";
 
 		try {			   
 			PreparedStatement pstmt = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);			
@@ -117,31 +116,37 @@ public class DatabaseConnector {
 			pstmt.executeUpdate();
 			 
 			ResultSet rs = pstmt.getGeneratedKeys();
-			if (rs.next()) {
+			if (rs.next()) {				
 				primaryKey = rs.getInt(1);
-			  System.out.println(primaryKey + " new id");
-			}
-		   
-		   
+				System.out.println(primaryKey + " new id");
+			}		   		   
 	   }catch(Exception ex){
 		    System.err.println(ex.getClass().getName() + " " + ex.getMessage());
             System.exit(0);
 	   }
-		
 		return primaryKey;
 	}
 
-	public void addCorner(int pkField) {
+	public int addCorner(int pkField) {
+		int primaryKey = -1;
+		String sql = "INSERT INTO "+ Struktur.CORNER + " (field_id)" +  "VALUES(?);";		
+		
 		try {	
-			c.setAutoCommit(false);	   
-			stmt = c.createStatement();	   
-			String sql = "INSERT INTO ecke (field_id)" +  "VALUES('"+ pkField +"');";			
-  		    stmt.executeUpdate(sql);	
-		    c.commit();		 
+			//c.setAutoCommit(false);	
+			PreparedStatement pstmt = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);	
+			pstmt.setInt(1,pkField);		
+			pstmt.executeUpdate(sql);	
+		    //c.commit();		
+			ResultSet rs = pstmt.getGeneratedKeys();
+			if (rs.next()) {				
+				primaryKey = rs.getInt(1);				 
+			}		 
 		}catch(Exception ex){
 		    System.err.println(ex.getClass().getName() + " " + ex.getMessage());
             System.exit(0);
-		}			
+		}	
+		
+		return primaryKey;
 	}
 	
 	public void close()
