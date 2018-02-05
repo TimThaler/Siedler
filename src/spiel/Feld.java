@@ -18,27 +18,21 @@ implements interfaces.Feld{
 	 * Es sucht nach Knoten die existieren, welche weniger als 3 angrenzende Felder haben
 	 * Falls das Feld keine findet baut es neue Knoten.
 	 */
-	public Feld(int wurfelzahl, Rohstoff rohstoff)
-	{
+	public Feld(int wurfelzahl, Rohstoff rohstoff){
 		this.rohstoff = rohstoff;
 		this.wuerfelzahl = wurfelzahl;
 		
 		knoten = new Knoten[6];
 		
-		for( int i = 0; i < 6; i++)
-		{
+		for( int i = 0; i < 6; i++){
 			knoten[0] = new Knoten(this);
 		}
 	}
 	
-	public void updateRohstoffePerBauwerk()
-	{
-		if(!vomRaeuberBesetzt)
-		{
-			for(int i = 0; i < knoten.length; i++)
-			{
-				if(knoten[i].bebaut)
-				{
+	public void updateRohstoffePerBauwerk(){
+		if(!vomRaeuberBesetzt){
+			for(int i = 0; i < knoten.length; i++){
+				if(knoten[i].bebaut){
 					Bauwerk bauwerk = knoten[i].getBauwerk();
 					bauwerk.getBesitzer().updateRohstoff(this.getRohstoff(),bauwerk);
 				}
@@ -54,19 +48,15 @@ implements interfaces.Feld{
 		this.vomRaeuberBesetzt = vomRaeuberBesetzt;
 	}
 
-	@Override
 	public int getFeldWuerfelNummer() {
 		return this.wuerfelzahl;
 	}
 
-	@Override
 	public Rohstoff getRohstoff() {
 		return this.rohstoff;
-		
 	}
 	
-	public boolean istFeldBebaut()
-	{
+	public boolean istFeldBebaut(){
 		return this.bebaut;
 	}
 }

@@ -53,8 +53,7 @@ public class ConnectionPoolManager {
 	
 	public void close()
 	{
-		for(DatabaseConnector dbc : connectionPool)
-		{
+		for(DatabaseConnector dbc : connectionPool){
 			dbc.close();
 		}
 	}
