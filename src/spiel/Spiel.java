@@ -7,38 +7,36 @@ implements interfaces.Konstanten{
 	public static void main(String[] args)
 	{
 		/**
-		 *   catch(ClassNotFoundException cnfe)
-		 *   catch(RelationNotFoundException rex) {
-		 */
-		/**
-		 * Pool of Connection Elements. Get one if one is free and give it to
-		 * spielbrett
-		 * construktor each object connects to predefinded database 
-		 */
-		ConnectionPoolManager cmp = ConnectionPoolManager.getInstance();
-		DatabaseConnector dbc = cmp.getDBCfromPool();
-		/**
-		 * ToDo: 
-		 * Spielbrett baut sich selber
-		 * und zwar mit Spielfeldern die aneinander gehängt werden.
-		 * jedes feld hat 6 kanten und 6 knoten
-		 */
-		
-		/**
 		 * Phasen
 		 * Spiel initialisieren(Spielbrett, Spieler, Startposition)
 		 * Wuerfeln
 		 * Rohstoffe einsammeln
 		 * Optionen anzeigen
 		 * Bauen 
-		 * punkte berechnen wenn gesamtpunkte erreicht -> spiel vorbei
+		 * punkte berechnen wenn gesamtpunkte erreicht -> zug vorbei
 		 * wieder wuerfeln
 		 */
-
+		/**
+		 * toDo create database table relation to setup siedler board
+		 * * Spielbrett baut sich selber
+		 * und zwar mit Spielfeldern die aneinander gehängt werden.
+		 * jedes feld hat 6 kanten und 6 knoten
+		 * 
+		 */
+		
+		
+		/**
+		 *   catch(ClassNotFoundException cnfe)
+		 *   catch(RelationNotFoundException rex) {
+		 */
+		
+		ConnectionPoolManager cmp = ConnectionPoolManager.getInstance();
+		DatabaseConnector dbc = cmp.getDBCfromPool();		
 		Spielbrett spielbrett = Spielbrett.getInstance(ANZ_FELDER_AUF_SPIELBRETT,dbc);
 		SpielModerator moderator = SpielModerator.getInstance();
-		Spieler spieler1 = new Spieler("Tim","rot");
-		Spieler spieler2 = new Spieler("Giu", "gruen");
+		
+		Spieler spieler1 = new Spieler("Giu","blau");
+		Spieler spieler2 = new Spieler("Tim", "gruen");
 		Spieler[] s = new Spieler[2];
 
 
@@ -65,12 +63,7 @@ implements interfaces.Konstanten{
 		//	spielbrett.updateRohstoffeNachWurf(wuerfelZahl);
 		}
 		
-		
-		/**
-		 * Phase Punkte berechnen
-		 * Nach der Bauphase werden die Gesamtpunkte berechnet und 
-		 * so erittelt ob ein Spieler das Spiel gewonnen hat
-		 */
+	
 		cmp.pushDBCtoPool(dbc);
 		cmp.close();
 	}
