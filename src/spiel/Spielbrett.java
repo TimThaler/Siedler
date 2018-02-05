@@ -30,11 +30,17 @@ public class Spielbrett {
 			Feld feld = new Feld((r.nextInt(11)+1),rohstoff);
 			felder.addElement(feld);
 		}
-		System.out.println("[***] dbc constructor");
+		
         if(dbc.tableExists(Struktur.FIELD)){
         	dbc.clearTable(Struktur.FIELD);
         }else{
         	dbc.createTableField();
+        }
+        
+        if(dbc.tableExists(Struktur.CORNER)){
+        	dbc.clearTable(Struktur.CORNER);
+        }else{
+        	dbc.createTableCorner();
         }
         
         for(Feld f : felder){

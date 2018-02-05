@@ -86,27 +86,14 @@ public class DatabaseConnector {
 		}
 	}
 	
-	public void createTable(Struktur struktur) {
-		String tableName = null;
+	public void createTableCorner() {
+		String tableName =  "corner";
 		
 		try {	
 			dmd = c.getMetaData();
-		
-			switch (struktur){
-				case FIELD:
-					tableName = "feld";
-					sql = "Create table field (ID SERIAL UNIQUE," + 
-							Konstanten.FIELD_TABLE_SETUP
-							+ ");";  
-					break;
-				case Knoten:
-					tableName = "knoten";
-					break;
-				case CORNER:
-					tableName = "corner";
-					sql = "Create table ecke (ID SERIAL UNIQUE, field_id integer REFERENCES field(id));" ;
-					break;
-			}
+			sql = "Create table ecke "
+					+ "(ID SERIAL UNIQUE, "
+					+ "field_id integer REFERENCES field(id));" ;
 			stmt = c.createStatement(); 
         	stmt.executeUpdate(sql); 
 			System.out.println("[***] Table " + tableName + " created"); 	
@@ -145,17 +132,16 @@ public class DatabaseConnector {
 	}
 
 	public void addCorner(int pkField) {
-		 
 		try {	
 			c.setAutoCommit(false);	   
 			stmt = c.createStatement();	   
 			String sql = "INSERT INTO ecke (field_id)" +  "VALUES('"+ pkField +"');";			
   		    stmt.executeUpdate(sql);	
 		    c.commit();		 
-	   }catch(Exception ex){
+		}catch(Exception ex){
 		    System.err.println(ex.getClass().getName() + " " + ex.getMessage());
             System.exit(0);
-	   }			
+		}			
 	}
 	
 	public void close()
