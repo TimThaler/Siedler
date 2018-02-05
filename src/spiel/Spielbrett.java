@@ -43,7 +43,7 @@ public class Spielbrett {
         
         for(Feld f : felder)
 		{
-        	
+        	dbc.addField(f);
 		}
 	
 			//int pk = DatabaseConnector.addField();

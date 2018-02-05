@@ -117,14 +117,14 @@ public class DatabaseConnector {
 		}
 	}
 
-	public int addField(Rohstoff rohstoff) {
+	public int addField(Feld feld) {
 		int primaryKey = -1;
 		sql = "INSERT INTO " + Struktur.FIELD + "( NAME,ROHSTOFF) VALUES(?, ?)";
 
 		try {			   
 			PreparedStatement pstmt = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);			
-			pstmt.setString(1, rohstoff.toString());
-			pstmt.setString(2, rohstoff.toString());
+			pstmt.setString(1, feld.getRohstoff().toString());
+			pstmt.setInt(2, feld.getFeldWuerfelNummer());
 			
 			pstmt.executeUpdate();
 			 
