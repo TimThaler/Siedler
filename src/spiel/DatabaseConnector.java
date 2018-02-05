@@ -68,6 +68,24 @@ public class DatabaseConnector {
 		return false;
 	}
 
+	public void createTableField() {
+		String tableName = "feld";
+		
+		try {	
+			dmd = c.getMetaData();
+			sql = "Create table field (ID SERIAL UNIQUE," + 
+					Konstanten.FIELD_TABLE_SETUP
+					+ ");";  			 			 		
+			stmt = c.createStatement(); 
+        	stmt.executeUpdate(sql); 
+			System.out.println("[***] Table " + tableName + " created"); 	
+		}catch(SQLException ex){
+			ex.printStackTrace();
+			System.err.println(ex.getClass().getName() + ": " + ex.getMessage());
+			System.exit(0);
+		}
+	}
+	
 	public void createTable(Struktur struktur) {
 		String tableName = null;
 		

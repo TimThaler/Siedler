@@ -1,6 +1,8 @@
 package spiel;
 
 import java.util.Random;
+import java.util.Vector;
+
 import enums.Rohstoff;
 import enums.Struktur;
 import interfaces.Konstanten;
@@ -24,29 +26,30 @@ public class Spielbrett {
 		Random r = new Random();
 		this.dbc = dbc;
 		
-		felder = new Feld[anzFelder];
-		for(int i = 0; i < felder.length; i++)
+		Vector<Feld> felder = new Vector<Feld>();
+		
+		for(int i = 0; i < anzFelder; i++)
 		{	
 			Rohstoff rohstoff = Rohstoff.values()[(r.nextInt(5))];
 			Feld feld = new Feld((r.nextInt(11)+1),rohstoff);
-			felder[i] = feld;
+			felder.addElement(feld);
 		}
-		
+		System.out.println("[***] dbc constructor");
         if(dbc.tableExists(Struktur.FIELD)){
         	dbc.clearTable(Struktur.FIELD);
         }else {
-        	dbc.createTable(Struktur.FIELD);
+        	dbc.createTableField();
         }
-        dbc.tableExists(Struktur.CORNER);
-        //DatabaseConnector.createTable(Struktur.FIELD);
-        //DatabaseConnector.createTable(Struktur.Knoten);
-		//DatabaseConnector.createTable(Struktur.CORNER);
-		
+        
+        for(Feld f : felder)
+		{
+        	
+		}
 	
 			//int pk = DatabaseConnector.addField();
 			for(int x = 0; x <5; x++)
 			{
-				dbc.addCorner(1);
+				//dbc.addCorner(1);
 			}
 				
 	}
