@@ -5,12 +5,11 @@ import java.util.Vector;
 
 import enums.Rohstoff;
 import enums.Struktur;
-import interfaces.Konstanten;
 
 public class Spielbrett {
 	public static Spielbrett instance = null;
 	public DatabaseConnector dbc = null;
-	private Feld[] felder;
+	private Vector<Feld> felder = null;
 	
 	public static Spielbrett getInstance(int anzFelder, DatabaseConnector dbc)
 	{
@@ -23,10 +22,10 @@ public class Spielbrett {
 	
 	private Spielbrett(int anzFelder, DatabaseConnector dbc)
 	{
-		Random r = new Random();
-		this.dbc = dbc;
 		
-		Vector<Feld> felder = new Vector<Feld>();
+		this.dbc = dbc;					
+		this.felder = new Vector<Feld>();
+		Random r = new Random();
 		
 		for(int i = 0; i < anzFelder; i++)
 		{	
@@ -43,25 +42,22 @@ public class Spielbrett {
         
         for(Feld f : felder)
 		{
-        	dbc.addField(f);
-		}
-	
-			//int pk = DatabaseConnector.addField();
-			for(int x = 0; x <5; x++)
-			{
-				//dbc.addCorner(1);
-			}
-				
+        	int primaryKey = dbc.addField(f);
+        	for(int x =0; x<5; x++)
+        	{
+        		dbc.addCorner(primaryKey);
+        	}
+		}			
 	}
 	public void updateRohstoffeNachWurf(int augenZahl)
 	{
-		for (int i = 0; i < felder.length; i++)
+		for(Feld feld: felder)		
 		{
-			if (felder[i].getFeldWuerfelNummer() == augenZahl)
+			if (feld.getFeldWuerfelNummer() == augenZahl)
 			{
-				if(felder[i].istFeldBebaut());
+				if(feld.istFeldBebaut());
 				{
-					felder[i].updateRohstoffePerBauwerk();
+					feld.updateRohstoffePerBauwerk();
 				}
 			}
 		}

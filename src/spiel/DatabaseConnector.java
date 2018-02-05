@@ -123,6 +123,7 @@ public class DatabaseConnector {
 
 		try {			   
 			PreparedStatement pstmt = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);			
+			
 			pstmt.setString(1, feld.getRohstoff().toString());
 			pstmt.setInt(2, feld.getFeldWuerfelNummer());
 			
