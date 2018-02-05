@@ -22,37 +22,32 @@ implements interfaces.Spieler{
 	private boolean istAmZug = false;
 	
 	
-	public Spieler(String name,String farbe)
-	{
+	public Spieler(String name,String farbe){
 		this.name = name;
 		this.farbe = farbe;
 		istAmZug = false;
 		staedte = new ArrayList<Stadt>();
 		siedlungen = new ArrayList<Siedlung>();
 	}
-	@Override
+
 	public String getName() {
 		return this.name;
 	}
 
-	@Override
 	public String getFarbe() {
 		return this.farbe;
 	}
 
-	@Override
 	public int getAnzSiedlungen() {
 		// TODO Auto-generated method stub
 		return siedlungen.size();
 	}
 
-	@Override
 	public int getAnzStaedte() {
 		// TODO Auto-generated method stub
 		return staedte.size();
 	}
 
-	@Override
 	public int getAnzZusammenhaengenderStrassen() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -64,26 +59,26 @@ implements interfaces.Spieler{
 	}
 	@Override
 	public boolean istSiedlungBauenMoeglich() {
-		if(this.anzHolz > 0 && this.anzLehm > 0 && this.anzGetreide > 0 && this.anzWolle > 0)
-		{
+		if(this.anzHolz > 0 
+				&& this.anzLehm > 0 
+				&& this.anzGetreide > 0 
+				&& this.anzWolle > 0){
 			return true;
-			}else {
-				return false;
-			}
+		}else{				
+			return false;		
+		}
 	}
 	@Override
 	public boolean istStadtBauenMoeglich() {
-		if(this.anzErz > 3 && this.anzGetreide > 2)
-		{
+		if(this.anzErz > 3 && this.anzGetreide > 2){
 			return true;
-		}else {
+		}else{
 			return false;
 		}
 	}
 	@Override
 	public void siedlungBauen(Knoten knoten) {
-		if (istSiedlungBauenMoeglich())
-		{
+		if (istSiedlungBauenMoeglich()) {
 			this.anzGetreide -= 1;
 			this.anzHolz -= 1;
 			this.anzLehm -= 1;
@@ -95,10 +90,10 @@ implements interfaces.Spieler{
 	}
 	@Override
 	public void stadtBauen(Knoten knoten) {
-		if (istStadtBauenMoeglich())
-		{
+		if (istStadtBauenMoeglich()) {
 			this.anzErz -= 3;
 			this.anzGetreide -= 2;
+			
 			Stadt stadt = new Stadt(this, knoten);
 			this.staedte.add(stadt);
 		}	
@@ -106,21 +101,16 @@ implements interfaces.Spieler{
 	@Override
 	public void updateRohstoff(Rohstoff rohstoff, Bauwerk bauwerk) {
 		int inc = 0;
-		if(bauwerk.getClass().equals(Siedlung.class))
-		{
+		if(bauwerk.getClass().equals(Siedlung.class)){
 			inc = 1; 
-		}
-		else if(bauwerk instanceof Stadt)
-		{
+		}else if(bauwerk instanceof Stadt){
 			inc = 2;
-		}
-		else
-		{
+		}else{
 			//throw new Exception();
 			//throw exception e; 
 		}
-		switch(rohstoff)
-		{
+		
+		switch(rohstoff){
 			case Erz: 
 				anzErz += inc;
 				break;
@@ -146,12 +136,9 @@ implements interfaces.Spieler{
 	
 	@Override
 	public void kartenAbgeben() {
-		if (getAnzRohstoffkarten() % 2 == 0)
-		{
+		if (getAnzRohstoffkarten() % 2 == 0){
 			
-		}
-		else
-		{
+		}else{
 			if (anzErz>0)
 			anzErz --;
 			kartenAbgeben();

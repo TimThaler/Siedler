@@ -10,8 +10,7 @@ public class ConnectionPoolManager {
 	
 	public static ConnectionPoolManager getInstance()
 	{
-		if(instance == null)
-		{
+		if(instance == null){
 			instance = new ConnectionPoolManager();
 		}
 		return instance;
@@ -19,8 +18,7 @@ public class ConnectionPoolManager {
 	
 	private ConnectionPoolManager()
 	{
-		while(!isConnectionPoolFull())
-		{
+		while(!isConnectionPoolFull()) {
 			System.out.println("[***] added dbc object to vector");
 			DatabaseConnector dbc = new DatabaseConnector();
 			connectionPool.addElement(dbc);
@@ -28,8 +26,7 @@ public class ConnectionPoolManager {
 	}
 	
 	public boolean isConnectionPoolFull() {
-		if(connectionPool.size() < Konstanten.MAX_POOL_SIZE)
-		{
+		if(connectionPool.size() < Konstanten.MAX_POOL_SIZE){
 			return false;
 		}
 		return true;
@@ -42,7 +39,6 @@ public class ConnectionPoolManager {
 			dbc = this.connectionPool.firstElement();
 			this.connectionPool.removeElementAt(0);
 		}
-		
 		return dbc;
 	}
 		
