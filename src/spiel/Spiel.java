@@ -49,17 +49,14 @@ implements interfaces.Konstanten{
 		int wuerfelZahl = Wuerfel.wuefeln();
 		System.out.println("Spieler ");
 		System.out.println(wuerfelZahl);
-		if (wuerfelZahl == 7)
-		{
+		if (wuerfelZahl == 7){
 			System.out.println("Der Raeuber kommt");
-			for(int i = 0; i < s.length; i++)
-			{
-				if (s[i].getAnzRohstoffkarten() == MAX_KARTEN_BEI_RAEUBER)
-				{
+			for(int i = 0; i < s.length; i++){
+				if (s[i].getAnzRohstoffkarten() == MAX_KARTEN_BEI_RAEUBER){
 					s[i].kartenAbgeben();					
 				}
 			}
-		}else {
+		}else{
 		//	spielbrett.updateRohstoffeNachWurf(wuerfelZahl);
 		}
 		
