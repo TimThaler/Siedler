@@ -86,7 +86,7 @@ public class DatabaseConnector {
 	}
 	
 	public void createTableCorner() {
-		String tableName =  "corner";
+		String tableName =  "ecke";
 		
 		try {	
 			dmd = c.getMetaData();
@@ -156,5 +156,21 @@ public class DatabaseConnector {
 			if(rs != null) rs.close();
 			System.out.println("[***] Database Connector closed");
 		}catch(Exception e) {}
+	}
+
+	public int createTableEdge() {
+		String sql = Konstanten.CORNER_TABLE_SETUP;
+		
+		try {	
+			dmd = c.getMetaData(); 			 			 		
+			stmt = c.createStatement(); 
+        	stmt.executeUpdate(sql); 
+			System.out.println("[***] Table 'kante' created"); 	
+		}catch(SQLException ex){
+			ex.printStackTrace();
+			System.err.println(ex.getClass().getName() + ": " + ex.getMessage());
+			System.exit(0);
+		}
+		return -1;
 	}
 }
