@@ -5,8 +5,7 @@ implements interfaces.Bauwerk{
 	private Spieler besitzer = null;
 	private Knoten knoten = null;
 	
-	public Stadt(Spieler besitzer, Knoten knoten)
-	{
+	public Stadt(Spieler besitzer, Knoten knoten){
 		this.besitzer = besitzer;
 		this.knoten = knoten;
 	}

@@ -4,26 +4,21 @@ public class SpielModerator
 implements interfaces.Konstanten{
 	private static SpielModerator instance = null;
 	
-	private SpielModerator()
-	{
+	private SpielModerator(){
 	}
 	
-	public static SpielModerator getInstance()
-	{
-		if (instance == null)
-		{
+	public static SpielModerator getInstance(){
+		if (instance == null){
 			instance = new SpielModerator();
 		}
 		return instance;
 	}
 	
-	public Spieler aktiverSpieler()
-	{
+	public Spieler aktiverSpieler(){
 		return null;
 	}
 
-	public void naechsterSpieleramZug()
-	{
+	public void naechsterSpieleramZug(){
 		
 	}
 	
@@ -34,19 +29,15 @@ implements interfaces.Konstanten{
 	 * 
 	 * @return
 	 */
-	public boolean spielInitialisieren()
-	{
+	public boolean spielInitialisieren(){
 		return false;
 	}
 	
-	public boolean gesammtpunkteBerechnen(Spieler s)
-	{
+	public boolean gesammtpunkteBerechnen(Spieler s){
 		boolean gewinnerVorhanden = false;
-			if(s.anzGesamtpunkte()>= GESAMT_PUNKTE_ZUM_GEWINNEN )
-			{
+			if(s.anzGesamtpunkte()>= GESAMT_PUNKTE_ZUM_GEWINNEN ){
 				gewinnerVorhanden = true;
 			}	
-		
 		return gewinnerVorhanden;
 	}
 }
