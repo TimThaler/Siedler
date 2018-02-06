@@ -86,16 +86,14 @@ public class DatabaseConnector {
 	}
 	
 	public void createTableCorner() {
-		String tableName =  "ecke";
+		String sql =  Konstanten.CORNER_TABLE_SETUP;
 		
 		try {	
 			dmd = c.getMetaData();
-			String sql = "Create table " + tableName
-					+ "(ID SERIAL UNIQUE, "
-					+ "field_id integer REFERENCES field(id));" ;
+			
 			stmt = c.createStatement(); 
 			stmt.executeUpdate(sql); 
-			System.out.println("[***] Table " + tableName + " created"); 	
+			System.out.println("[***] Table 'corner' created"); 	
 		}catch(SQLException ex){
 			ex.printStackTrace();
 			System.err.println(ex.getClass().getName() + ": " + ex.getMessage());
@@ -108,7 +106,7 @@ public class DatabaseConnector {
 		String sql = "INSERT INTO " + Struktur.FIELD + "( NAME,ROHSTOFF) VALUES(?, ?)";
 
 		try {
-			System.out.println(sql);
+			//System.out.println(sql);
 			PreparedStatement pstmt = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);			
 			pstmt.setString(1, feld.getRohstoff().toString());
 			pstmt.setInt(2, feld.getFeldWuerfelNummer());
@@ -128,15 +126,14 @@ public class DatabaseConnector {
 
 	public int addCorner(int pkField) {
 		int primaryKey = -1;
-		String sql = "INSERT INTO " + Struktur.CORNER + " (field_id)" +  "VALUES('"+ pkField +"');";
+		String sql = "INSERT INTO " + Struktur.CORNER + " (field_id) VALUES(?);";
 		
 		try {
-			c.setAutoCommit(false);	
-			stmt = c.createStatement();	    			
- 			stmt.executeUpdate(sql);
- 			c.commit();	
+			PreparedStatement pstmt = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);			
+			pstmt.setInt(1, pkField);
+			pstmt.executeUpdate();
  			
- 			ResultSet rs = stmt.getGeneratedKeys();
+ 			ResultSet rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {
 				primaryKey = rs.getInt(1);				 
 			}
@@ -158,19 +155,47 @@ public class DatabaseConnector {
 		}catch(Exception e) {}
 	}
 
-	public int createTableEdge() {
-		String sql = Konstanten.CORNER_TABLE_SETUP;
+	public void createTableEdge() {
+		String sql = Konstanten.EDGE_TABLE_SETUP;
 		
 		try {	
 			dmd = c.getMetaData(); 			 			 		
 			stmt = c.createStatement(); 
         	stmt.executeUpdate(sql); 
-			System.out.println("[***] Table 'kante' created"); 	
+			System.out.println("[***] Table "+ Struktur.EDGE +" created"); 	
 		}catch(SQLException ex){
 			ex.printStackTrace();
 			System.err.println(ex.getClass().getName() + ": " + ex.getMessage());
 			System.exit(0);
 		}
-		return -1;
+	}
+
+	public int addEdge(Edge edge) {
+		int primaryKey = -1;
+		String sql = "INSERT INTO " + Struktur.EDGE + 
+				" (field_id, corner_1_id, corner_2_id)" +
+				" VALUES('" + 
+				edge.getFieldId() + "', '" + 
+				edge.getEdge1Id() + "', '" +
+				edge.getEdge2Id() + "');";
+		
+		try {
+			c.setAutoCommit(false);	
+			stmt = c.createStatement();
+			System.out.println(sql);
+ 			stmt.executeUpdate(sql);
+ 			c.commit();	
+ 			
+ 			ResultSet rs = stmt.getGeneratedKeys();
+			if (rs.next()) {
+				primaryKey = rs.getInt(1);				 
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		    System.err.println(ex.getClass().getName() + " " + ex.getMessage());
+            System.exit(0);
+		}			
+		return primaryKey;
+		
 	}
 }
