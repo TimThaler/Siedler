@@ -1,6 +1,7 @@
 package spiel;
 
 import java.util.Random;
+import java.util.Stack;
 import java.util.Vector;
 
 import enums.Rohstoff;
@@ -26,30 +27,50 @@ public class Spielbrett {
 		this.felder = new Vector<Feld>();
 		Random r = new Random();
 
-        if(dbc.tableExists(Struktur.FIELD)){
-        	dbc.clearTable(Struktur.FIELD);
+		if(dbc.tableExists(Struktur.EDGE)){
+        	dbc.clearTable(Struktur.EDGE);
         }else{
-        	dbc.createTableField();
+        	dbc.createTableEdge();
         }
-        
-        if(dbc.tableExists(Struktur.CORNER)){
+		
+		if(dbc.tableExists(Struktur.CORNER)){
         	dbc.clearTable(Struktur.CORNER);
         }else{
         	dbc.createTableCorner();
         }
-        
+		
+        if(dbc.tableExists(Struktur.FIELD)){
+        	dbc.clearTable(Struktur.FIELD);
+        }else{
+        	dbc.createTableField();
+        }                        
+                
         for(int i = 0; i < Konstanten.ANZ_FELDER_AUF_SPIELBRETT; i++){	
 			Rohstoff rohstoff = Rohstoff.values()[(r.nextInt(5))];
 			Feld feld = new Feld((r.nextInt(11)+1),rohstoff);
 			felder.addElement(feld);
 		}
         
+       
         for(Feld f : felder){
-        	int primaryKey = dbc.addField(f);
-        	for(int x =0; x<5; x++){
-        		dbc.addCorner(primaryKey);
+        	int primaryKeyField = dbc.addField(f);
+        	int[] array = new int[Konstanten.ANZ_ECKEN_PRO_FELD];
+        	
+        	// Create six corners for each field
+        	for(int x =0; x < array.length; x++){
+        		array[x] = dbc.addCorner(primaryKeyField);
         	}
-		}			
+        	// Create six edges for each field
+        	int i = 0;
+        	while(i < array.length - 1)
+        	{
+        		Edge edge = new Edge(array[i], array[i+1], primaryKeyField);
+        		dbc.addEdge(edge);
+        		i++;
+        	}
+        	Edge edge = new Edge(array[0], array[array.length-1], primaryKeyField);
+        	dbc.addEdge(edge);
+		}	                  
 	}
 	
 	public void updateRohstoffeNachWurf(int augenZahl)
