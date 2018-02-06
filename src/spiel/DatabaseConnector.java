@@ -107,7 +107,8 @@ public class DatabaseConnector {
 		int primaryKey = -1;
 		String sql = "INSERT INTO " + Struktur.FIELD + "( NAME,ROHSTOFF) VALUES(?, ?)";
 
-		try {			   
+		try {
+			System.out.println(sql);
 			PreparedStatement pstmt = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);			
 			pstmt.setString(1, feld.getRohstoff().toString());
 			pstmt.setInt(2, feld.getFeldWuerfelNummer());
@@ -127,19 +128,20 @@ public class DatabaseConnector {
 
 	public int addCorner(int pkField) {
 		int primaryKey = -1;
-		String sql = "INSERT INTO "+ Struktur.CORNER + " (field_id)" +  "VALUES(?);";		
+		String sql = "INSERT INTO " + Struktur.CORNER + " (field_id)" +  "VALUES('"+ pkField +"');";
 		
-		try {	
-			//c.setAutoCommit(false);	
-			PreparedStatement pstmt = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);	
-			pstmt.setInt(1,pkField);		
-			pstmt.executeUpdate(sql);	
-		    //c.commit();		
-			ResultSet rs = pstmt.getGeneratedKeys();
-			if (rs.next()) {				
+		try {
+			c.setAutoCommit(false);	
+			stmt = c.createStatement();	    			
+ 			stmt.executeUpdate(sql);
+ 			c.commit();	
+ 			
+ 			ResultSet rs = stmt.getGeneratedKeys();
+			if (rs.next()) {
 				primaryKey = rs.getInt(1);				 
-			}		 
+			}
 		}catch(Exception ex){
+			ex.printStackTrace();
 		    System.err.println(ex.getClass().getName() + " " + ex.getMessage());
             System.exit(0);
 		}			
