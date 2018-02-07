@@ -72,9 +72,7 @@ public class DatabaseConnector {
 		
 		try {	
 			dmd = c.getMetaData();
-			String sql = "Create table field (ID SERIAL UNIQUE," + 
-					Konstanten.FIELD_TABLE_SETUP
-					+ ");";  			 			 		
+			String sql = Konstanten.FIELD_TABLE_SETUP;  			 			 		
 			stmt = c.createStatement(); 
         	stmt.executeUpdate(sql); 
 			System.out.println("[***] Table " + tableName + " created"); 	
@@ -103,7 +101,7 @@ public class DatabaseConnector {
 
 	public int addField(Feld feld) {
 		int primaryKey = -1;
-		String sql = "INSERT INTO " + Struktur.FIELD + "( NAME,ROHSTOFF) VALUES(?, ?)";
+		String sql = "INSERT INTO " + Struktur.FIELD + "( resource,dice_value) VALUES(?, ?)";
 
 		try {
 			//System.out.println(sql);

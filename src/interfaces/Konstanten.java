@@ -11,11 +11,12 @@ public interface Konstanten {
 	public static final int MAX_KARTEN_BEI_RAEUBER = 7;
 	public static final int GESAMT_PUNKTE_ZUM_GEWINNEN = 12;
 	public static final int ANZ_FELDER_AUF_SPIELBRETT = 1;
-	
-	
+		
 	public static final String FIELD_TABLE_SETUP = 
-			" Name TEXT NOT NULL," +
-			" Rohstoff TEXT NOT NULL" ;	
+			"Create table field (ID SERIAL UNIQUE," +
+			" resource TEXT NOT NULL," +
+			" dice_value TEXT NOT NULL"
+			+ ");" ;	
 	
 	public static final String CORNER_TABLE_SETUP =
 			"Create table corner (ID SERIAL UNIQUE,"
