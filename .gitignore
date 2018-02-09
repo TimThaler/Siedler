@@ -45,7 +45,6 @@ local.properties
 *.log
 
 # Package Files #
-*.jar
 *.war
 *.ear
 *.zip
