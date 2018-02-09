@@ -1,6 +1,7 @@
 package spiel;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 import enums.Rohstoff;
 import interfaces.Bauwerk;
@@ -150,5 +151,23 @@ implements interfaces.Spieler{
 	}
 	public void setIstAmZug(boolean istAmZug) {
 		this.istAmZug = istAmZug;
+	}
+
+	@Override
+	public Vector<Rohstoff> FourCardsOfOneKind() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void buildStructure() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void longestStreet() {
+		// TODO Auto-generated method stub
+		
 	}
 }
