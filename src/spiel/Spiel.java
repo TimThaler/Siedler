@@ -1,11 +1,13 @@
 package spiel;
 
+import java.util.Vector;
+
+import enums.Rohstoff;
+import interfaces.Konstanten;
+
 public class Spiel 
 implements interfaces.Konstanten{
-
-	
-	public static void main(String[] args)
-	{
+	public static void main(String[] args){
 		/**
 		 * Phasen
 		 * Spiel initialisieren(Spielbrett, Spieler, Startposition)
@@ -18,10 +20,9 @@ implements interfaces.Konstanten{
 		 */
 		/**
 		 * toDo create database table relation to setup siedler board
-		 * * Spielbrett baut sich selber
-		 * und zwar mit Spielfeldern die aneinander gehängt werden.
-		 * jedes feld hat 6 kanten und 6 knoten
 		 * 
+		 * class und tbale knoten erstellen
+		 * knoten zu kanten hinzufügen
 		 */
 		
 		
@@ -44,30 +45,30 @@ implements interfaces.Konstanten{
 		s[1] = spieler2;
 		s[0].setIstAmZug(true);
 		
-		System.out.println(s[0].anzGesamtpunkte());
-		System.out.println(s[1].anzGesamtpunkte());
-		int wuerfelZahl = Wuerfel.wuefeln();
-		System.out.println("Spieler ");
-		System.out.println(wuerfelZahl);
-		if (wuerfelZahl == 7){
-			System.out.println("Der Raeuber kommt");
-			for(int i = 0; i < s.length; i++){
-				if (s[i].getAnzRohstoffkarten() == MAX_KARTEN_BEI_RAEUBER){
-					s[i].kartenAbgeben();					
-				}
+		while(!moderator.playerWonGame(s)) {
+			for(int i = 0; i<s.length;i++) {
+				System.out.println(s[0].anzGesamtpunkte());
 			}
-		}else{
-		//	spielbrett.updateRohstoffeNachWurf(wuerfelZahl);
+			
+			Spieler activePlayer = moderator.nextActivePlayer(s);
+ 			
+			int augenZahl = Wuerfel.wuefeln();
+			if(augenZahl == Konstanten.ROBBER_ATTACK_NUMBER) {
+				System.out.println("Der Raeuber kommt");
+				moderator.checkAndRemoveCardsFromPlayers(s);
+			}else {
+				spielbrett.updateRohstoffeNachWurf(augenZahl);
+			}
+			if(!activePlayer.FourCardsOfOneKind().isEmpty()) {
+				//trade with bank possible
+				System.out.println("Player can trade with bank");
+			}
+			activePlayer.buildStructure();
+			activePlayer.longestStreet();
 		}
-		
-	
+				
 		cmp.pushDBCtoPool(dbc);
+		dbc = null;
 		cmp.close();
 	}
-	
-	//for-each element in Pool close connection
-	//for(Enumeration e =connectionPool.elements(); e.hasMoreElements();)
-	//for(Vector v=ConnectionPool.elements())
-	//dbc.close();
-	
 }
