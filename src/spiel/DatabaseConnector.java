@@ -12,7 +12,7 @@ import enums.Rohstoff;
 import enums.Struktur;
 import interfaces.Konstanten;
 
-public class DatabaseConnector {
+public class DatabaseConnector{
 	Connection c = null;
 	Statement stmt = null;
 	DatabaseMetaData dmd = null;
@@ -30,6 +30,12 @@ public class DatabaseConnector {
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
 		}
+	}
+	
+	public int getFreeCornerID(Feld f) {
+		//String sql = "select "
+		
+		return 0;
 	}
 	
 	public void clearTable(Struktur struktur) {
@@ -67,31 +73,28 @@ public class DatabaseConnector {
 		return false;
 	}
 
-	public void createTableField() {
-		String tableName = "feld";
-		
+	public void createTable(Struktur struktur) {	
+		String sql = null;
+		switch (struktur) {
+		case  FIELD:		
+			sql = Konstanten.FIELD_TABLE_SETUP;		
+			break;
+		case  CORNER:
+			sql = Konstanten.CORNER_TABLE_SETUP;
+			break;
+		case EDGE:
+			sql = Konstanten.EDGE_TABLE_SETUP;
+			break;
+		case Knoten:
+			break;
+		default:
+			break;
+		}	
 		try {	
-			dmd = c.getMetaData();
-			String sql = Konstanten.FIELD_TABLE_SETUP;  			 			 		
+			System.out.print(sql);
+			dmd = c.getMetaData();			 			 		
 			stmt = c.createStatement(); 
         	stmt.executeUpdate(sql); 
-			System.out.println("[***] Table " + tableName + " created"); 	
-		}catch(SQLException ex){
-			ex.printStackTrace();
-			System.err.println(ex.getClass().getName() + ": " + ex.getMessage());
-			System.exit(0);
-		}
-	}
-	
-	public void createTableCorner() {
-		String sql =  Konstanten.CORNER_TABLE_SETUP;
-		
-		try {	
-			dmd = c.getMetaData();
-			
-			stmt = c.createStatement(); 
-			stmt.executeUpdate(sql); 
-			System.out.println("[***] Table 'corner' created"); 	
 		}catch(SQLException ex){
 			ex.printStackTrace();
 			System.err.println(ex.getClass().getName() + ": " + ex.getMessage());
@@ -151,21 +154,6 @@ public class DatabaseConnector {
 			if(rs != null) rs.close();
 			System.out.println("[***] Database Connector closed");
 		}catch(Exception e) {}
-	}
-
-	public void createTableEdge() {
-		String sql = Konstanten.EDGE_TABLE_SETUP;
-		
-		try {	
-			dmd = c.getMetaData(); 			 			 		
-			stmt = c.createStatement(); 
-        	stmt.executeUpdate(sql); 
-			System.out.println("[***] Table "+ Struktur.EDGE +" created"); 	
-		}catch(SQLException ex){
-			ex.printStackTrace();
-			System.err.println(ex.getClass().getName() + ": " + ex.getMessage());
-			System.exit(0);
-		}
 	}
 
 	public int addEdge(Edge edge) {

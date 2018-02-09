@@ -28,23 +28,26 @@ implements interfaces.Spielbrett{
 		this.nodes = new Vector<Knoten>();
 		Random r = new Random();
 
-		if(dbc.tableExists(Struktur.EDGE)){
-        	dbc.clearTable(Struktur.EDGE);
-        }else{
-        	dbc.createTableEdge();
-        }
+		 
+		if(dbc.tableExists(Struktur.FIELD)){	        			
+			dbc.clearTable(Struktur.FIELD);	        		 
+		}else{	     		
+			//dbc.createTableField();	        			
+			dbc.createTable(Struktur.FIELD);	        	
+		}     
+		
 		
 		if(dbc.tableExists(Struktur.CORNER)){
         	dbc.clearTable(Struktur.CORNER);
         }else{
-        	dbc.createTableCorner();
+        	dbc.createTable(Struktur.CORNER);
         }
 		
-        if(dbc.tableExists(Struktur.FIELD)){
-        	dbc.clearTable(Struktur.FIELD);
+		if(dbc.tableExists(Struktur.EDGE)){
+        	dbc.clearTable(Struktur.EDGE);
         }else{
-        	dbc.createTableField();
-        }                        
+        	dbc.createTable(Struktur.EDGE);
+        }                  
                 
         for(int i = 0; i < Konstanten.FIELDS_ON_BOARD; i++){	
 			Rohstoff rohstoff = Rohstoff.values()[(r.nextInt(5))];
@@ -70,9 +73,18 @@ implements interfaces.Spielbrett{
         	Edge edge = new Edge(array[0], array[array.length-1], primaryKeyField);
         	dbc.addEdge(edge);
         	
-        	// Create nodes for field
+        	// Create nodes for first field
+        	for(int k = 0; k < Konstanten.CORNERS_PER_FIELD; k++) {
+        		nodes.add(new Knoten(dbc.getFreeCornerID(f)));
+        	}
+        	drawHexagon(felder,nodes);
         	
 		}	                  
+	}
+	
+	private void drawHexagon(Vector<Feld> felder, Vector<Knoten> nodes){
+		
+		
 	}
 	
 	public void updateRohstoffeNachWurf(int augenZahl){
