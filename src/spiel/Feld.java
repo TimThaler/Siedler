@@ -21,12 +21,6 @@ implements interfaces.Feld{
 	public Feld(int wurfelzahl, Rohstoff rohstoff){
 		this.rohstoff = rohstoff;
 		this.wuerfelzahl = wurfelzahl;
-		
-		knoten = new Knoten[6];
-		
-		for( int i = 0; i < 6; i++){
-			knoten[0] = new Knoten(this);
-		}
 	}
 	
 	public void updateRohstoffePerBauwerk(){

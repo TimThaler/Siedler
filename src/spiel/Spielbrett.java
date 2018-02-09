@@ -75,9 +75,15 @@ implements interfaces.Spielbrett{
         	
         	// Create nodes for first field
         	for(int k = 0; k < Konstanten.CORNERS_PER_FIELD; k++) {
+        		Knoten node = new Knoten(dbc.getFreeCornerID(f));
+        		nodes.add(node);
+        		int pkNode = dbc.addNode(node);
+        		//save pk of node in the node object and then in the vector
         		nodes.add(new Knoten(dbc.getFreeCornerID(f)));
         	}
+        	//create first ring
         	drawHexagon(felder,nodes);
+        	//create 2nd ring
         	
 		}	                  
 	}
