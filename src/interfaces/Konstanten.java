@@ -7,6 +7,7 @@ public interface Konstanten {
 	
 	public static final int MAX_POOL_SIZE = 5;
 	
+	public static final int ROBBER_ATTACK_NUMBER = 7;
 	public static final int MAX_CARDS_WITH_ROBBER = 7;
 	public static final int MAX_POINTS_TO_WIN = 12;
 	public static final int FIELDS_ON_BOARD = 1;

@@ -1,5 +1,7 @@
 package interfaces;
 
+import java.util.Vector;
+
 import enums.Rohstoff;
 import spiel.Knoten;
 
@@ -17,5 +19,9 @@ public interface Spieler {
 	public void updateRohstoff(Rohstoff rohstoff,Bauwerk bauwerk);
 	public int getAnzRohstoffkarten();
 	public void kartenAbgeben();
+	public Vector<Rohstoff> FourCardsOfOneKind();
+	public void buildStructure();
+	public void longestStreet();
+	
 
 }
