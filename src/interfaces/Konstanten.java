@@ -27,7 +27,6 @@ public interface Konstanten {
 	
 	public static final String EDGE_TABLE_SETUP = 
 			"Create table edge (ID SERIAL UNIQUE, "
-			+ "field_id integer REFERENCES field(id), "
 			+ "corner_1_id integer REFERENCES corner(id) NOT NULL,"
 			+ "corner_2_id integer REFERENCES corner(id) NOT NULL "
 			+ ");";	

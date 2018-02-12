@@ -31,23 +31,20 @@ implements interfaces.Feld{
       
 		for(int x =0; x < Konstanten.CORNERS_PER_FIELD; x++){
     		Corner corner = new Corner(this);
-    		System.out.println(corner.getPrimaryKey());
     		this.corners.addElement(corner);
       	}	
 		
     	int i = 0;
     	while(i < Konstanten.CORNERS_PER_FIELD - 1 ){
-    		Edge edge = new Edge(corners.elementAt(i).getPrimaryKey(),
-    				corners.elementAt(i+1).getPrimaryKey(), 
-    				pk);    		
-    		dbc.addEdge(edge);
+    		new Edge(corners.elementAt(i),
+    				corners.elementAt(i+1) 
+    				);    		
     		i++;
     	}
-        
-    	Edge edge = new Edge(corners.elementAt(0).getPrimaryKey(), 
-    			corners.lastElement().getPrimaryKey(),
-    			pk);
-    	dbc.addEdge(edge);
+      
+    	new Edge(corners.elementAt(0), 
+    			corners.lastElement()
+    			);
     	
     	cmp.pushDBCtoPool(dbc);
 		dbc = null;
@@ -95,7 +92,7 @@ implements interfaces.Feld{
 		return this.bebaut;
 	}
 
-	public int getPk() {
+	public int getPrimaryKey() {
 		return pk;
 	}
 }

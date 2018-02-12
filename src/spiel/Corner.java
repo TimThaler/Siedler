@@ -8,7 +8,7 @@ public class Corner {
 		ConnectionPoolManager cmp = ConnectionPoolManager.getInstance();
 		DatabaseConnector dbc  = cmp.getDBCfromPool();
 		
-		setPkLinkedField(feld.getPk());
+		setPkLinkedField(feld.getPrimaryKey());
 		primaryKey = dbc.addCorner(this);
 		
 		cmp.pushDBCtoPool(dbc);
