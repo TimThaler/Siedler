@@ -43,10 +43,14 @@ implements interfaces.Spielbrett{
 		if(dbc.tableExists(Struktur.FIELD)){	        			
 			dbc.clearTable(Struktur.FIELD);	        		 
 		}else{	     		
-			//dbc.createTableField();	        			
 			dbc.createTable(Struktur.FIELD);	        	
 		} 
 		      
+		if(dbc.tableExists(Struktur.NODE)){	        			
+			dbc.clearTable(Struktur.NODE);	        		 
+		}else{	     		
+			dbc.createTable(Struktur.NODE);	        	
+		} 
                 
         for(int i = 0; i < Konstanten.FIELDS_ON_BOARD; i++){	
         	

@@ -83,14 +83,13 @@ implements interfaces.DatabaseConnector{
 		case EDGE:
 			sql = Konstanten.EDGE_TABLE_SETUP;
 			break;
-		case Knoten:
+		case NODE:
 			sql = Konstanten.NODE_TABLE_SETUP;
 			break;
 		default:
 			break;
 		}	
 		try {	
-			System.out.print(sql);
 			dmd = c.getMetaData();			 			 		
 			stmt = c.createStatement(); 
         	stmt.executeUpdate(sql); 

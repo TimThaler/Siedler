@@ -4,5 +4,6 @@ public enum Struktur {
 	FIELD,
 	Knoten,
 	CORNER,
-	EDGE
+	EDGE,
+	NODE
 }
