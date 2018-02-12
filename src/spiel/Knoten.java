@@ -4,25 +4,27 @@ import interfaces.Bauwerk;
 
 public class Knoten 
 implements interfaces.Knoten{
-	// maybe not needed
-	//private Knoten rightNeighbour = null;
-	//private Knoten leftNeighbour= null;	
+	private final int pkCorner1;
+	private int pkCorner2;
+	private int pkCorner3;
 	
 	public boolean bebaut = false;
-	//Feld[] angrendeneFelder = new Feld[3];
-	Bauwerk bauwerk = null;
+	public Bauwerk bauwerk = null;
 	
-	public Knoten(Feld feld){
-		this.bebaut = false;		
+	public Knoten(int pkCorner){
+		this.bebaut = false;
+		this.bauwerk = null;
+		
+		pkCorner1 = pkCorner;
+		
+		
 	}
 	
 	public boolean bebauenMoeglich(){
 		//und ueberall zwei knoten weiter noch platz ist ...
-		if(!bebaut){
-			return true;
-		}else{
-			return false;
-		}
+		// get the neighbour of each corner 
+		// via the edge relation
+		return false;
 	}
 
 	@Override

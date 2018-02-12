@@ -32,5 +32,14 @@ public interface Konstanten {
 			+ "corner_2_id integer REFERENCES corner(id) NOT NULL "
 			+ ");";	
 	
-	public static final String NODE_TABLE_SETUP = "";
+	public static final String NODE_TABLE_SETUP = 
+			"Create table edge (ID SERIAL UNIQUE, "
+			+ "corner_1_id integer REFERENCES corner(id) NOT NULL,"
+			+ "corner_2_id integer REFERENCES corner(id) NOT NULL,"
+			+ "corner_3_id integer REFERENCES corner(id) NOT NULL,"
+			+ "UNIQUE (corner_1_id,corner_2_id,corner_3_id)"
+			
+;
+
+
 }

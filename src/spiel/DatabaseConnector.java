@@ -12,7 +12,8 @@ import enums.Rohstoff;
 import enums.Struktur;
 import interfaces.Konstanten;
 
-public class DatabaseConnector{
+public class DatabaseConnector
+implements interfaces.DatabaseConnector{
 	Connection c = null;
 	Statement stmt = null;
 	DatabaseMetaData dmd = null;
@@ -32,12 +33,7 @@ public class DatabaseConnector{
 		}
 	}
 	
-	public int getFreeCornerID(Feld f) {
-		//String sql = "select "
-		
-		return 0;
-	}
-	
+	@Override
 	public void clearTable(Struktur struktur) {
 		String sql = "DELETE  FROM " + struktur.toString().toLowerCase();
         
@@ -52,6 +48,7 @@ public class DatabaseConnector{
 			}
 	}
 	
+	@Override
 	public boolean tableExists(Struktur struktur){		
 		try {
 			dmd = c.getMetaData();
@@ -73,6 +70,7 @@ public class DatabaseConnector{
 		return false;
 	}
 
+	@Override
 	public void createTable(Struktur struktur) {	
 		String sql = null;
 		switch (struktur) {
@@ -86,6 +84,7 @@ public class DatabaseConnector{
 			sql = Konstanten.EDGE_TABLE_SETUP;
 			break;
 		case Knoten:
+			sql = Konstanten.NODE_TABLE_SETUP;
 			break;
 		default:
 			break;
@@ -102,6 +101,7 @@ public class DatabaseConnector{
 		}
 	}
 
+	@Override
 	public int addField(Feld feld) {
 		int primaryKey = -1;
 		String sql = "INSERT INTO " + Struktur.FIELD + "( resource,dice_value) VALUES(?, ?)";
@@ -125,13 +125,14 @@ public class DatabaseConnector{
 		return primaryKey;
 	}
 
-	public int addCorner(int pkField) {
+	@Override
+	public int addCorner(Corner corner) {
 		int primaryKey = -1;
 		String sql = "INSERT INTO " + Struktur.CORNER + " (field_id) VALUES(?);";
 		
 		try {
 			PreparedStatement pstmt = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);			
-			pstmt.setInt(1, pkField);
+			pstmt.setInt(1, corner.getPkLinkedField());
 			pstmt.executeUpdate();
  			
  			ResultSet rs = pstmt.getGeneratedKeys();
@@ -146,6 +147,7 @@ public class DatabaseConnector{
 		return primaryKey;
 	}
 	
+	@Override
 	public void close()
 	{
 		try {								
@@ -156,6 +158,24 @@ public class DatabaseConnector{
 		}catch(Exception e) {}
 	}
 
+	@Override
+	public int addNode(Knoten node) {
+		int primaryKey = -1;
+		//String sql = "INSERT INTO " + Struktur.EDGE + 
+			//	" (field_id, corner_1_id, corner_2_id)" +
+			//	" VALUES('" + 
+			/*	edge.getFieldId() + "', '" + 
+				edge.getEdge1Id() + "', '" +
+				edge.getEdge2Id() + "');";*/
+		//Create table nodes with fields corner id can only be used once
+		// one corner can only be connected to one node
+		// addnode with one corner
+		
+		return 0; 
+		//primaryKey;
+	}
+	
+	@Override
 	public int addEdge(Edge edge) {
 		int primaryKey = -1;
 		String sql = "INSERT INTO " + Struktur.EDGE + 
@@ -173,7 +193,7 @@ public class DatabaseConnector{
  			c.commit();	
  			
  			ResultSet rs = stmt.getGeneratedKeys();
-			if (rs.next()) {
+			if (rs.next()){
 				primaryKey = rs.getInt(1);				 
 			}
 		}catch(Exception ex){
@@ -181,7 +201,6 @@ public class DatabaseConnector{
 		    System.err.println(ex.getClass().getName() + " " + ex.getMessage());
             System.exit(0);
 		}			
-		return primaryKey;
-		
+		return primaryKey;		
 	}
 }
