@@ -8,5 +8,5 @@ public interface Feld {
 	public Rohstoff getRohstoff();
 	public void updateRohstoffePerBauwerk();
 	public boolean istFeldBebaut();
-
+	public spiel.Corner getFreeCorner();
 }
