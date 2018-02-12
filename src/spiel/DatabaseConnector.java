@@ -178,11 +178,12 @@ implements interfaces.DatabaseConnector{
 	@Override
 	public int addEdge(Edge edge) {
 		int primaryKey = -1;
+		System.out.println("h");
 		String sql = "INSERT INTO " + Struktur.EDGE + 
 				" (corner_1_id, corner_2_id)" +
 				" VALUES('" + 
-				edge.getFirstCorner() + "', '" +
-				edge.getSecondCorner() + "');";
+				edge.getFirstCorner().getPrimaryKey() + "', '" +
+				edge.getSecondCorner().getPrimaryKey() + "');";
 		
 		try {
 			c.setAutoCommit(false);	
