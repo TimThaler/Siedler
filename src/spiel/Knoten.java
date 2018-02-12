@@ -4,18 +4,19 @@ import interfaces.Bauwerk;
 
 public class Knoten 
 implements interfaces.Knoten{
-	private final int pkCorner1;
-	private int pkCorner2;
-	private int pkCorner3;
+	private final Corner fieldCorner1;
+	private Corner fieldCorner2;
+	private Corner fieldCorner3;
 	
-	public boolean bebaut = false;
-	public Bauwerk bauwerk = null;
+	public boolean bebaut;
+	public Bauwerk bauwerk;
 	
-	public Knoten(int pkCorner){
+	
+	public Knoten(Feld field){
 		this.bebaut = false;
 		this.bauwerk = null;
 		
-		pkCorner1 = pkCorner;
+		fieldCorner1 = field.getFreeCorner();
 		
 		
 	}

@@ -56,20 +56,20 @@ implements interfaces.Spielbrett{
 			felder.addElement(feld);
 		}        
        
+        Feld firstField = felder.firstElement();
+        
+    	for(int k = 0; k < Konstanten.CORNERS_PER_FIELD; k++) {
+    		Knoten node = new Knoten(firstField);
+    	}
         for(Feld f : felder){
- 
-        	
-        	
-        	
         	// Create nodes for first field
-        	for(int k = 0; k < Konstanten.CORNERS_PER_FIELD; k++) {
         		// Create 6 nodes and assign each a free and unique corner id 
         		// from the first field
         	/*	Knoten node = new Knoten(f.getFreeCornerID())
         		nodes.add(node);
         		int pkNode = dbc.addNode(node);*/
         		//save pk of node in the node object and then in the vector
-        	}
+        	
         	//create first ring
         //	drawHexagon(felder,nodes);
         	//create 2nd ring

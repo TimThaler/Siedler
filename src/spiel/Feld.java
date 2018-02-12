@@ -53,10 +53,10 @@ implements interfaces.Feld{
 	
 	@Override
 	public Corner getFreeCorner() {
-		if(!this.corners.isEmpty()) {
-			Corner corner = this.corners.firstElement();
-			this.corners.remove(0);
-			return corner;
+		for(Corner c : corners) {
+			if (c.isCornerUnassigned())
+				c.assignToNode();
+			return c;
 			}
 		return null;
 	}

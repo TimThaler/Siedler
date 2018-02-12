@@ -27,4 +27,18 @@ public class Corner {
 	private void setPkLinkedField(int pkLinkedField) {
 		this.pkLinkedField = pkLinkedField;
 	}
+	
+	public boolean isCornerUnassigned() {
+		return false;
+		
+	}
+	
+	public void assignToNode() {
+		ConnectionPoolManager cmp = ConnectionPoolManager.getInstance();
+		DatabaseConnector dbc  = cmp.getDBCfromPool();
+		//dbc.
+		cmp.pushDBCtoPool(dbc);
+		dbc = null;
+		cmp = null;	
+	}
 }
