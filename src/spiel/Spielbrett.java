@@ -63,16 +63,9 @@ implements interfaces.Spielbrett{
         Feld firstField = felder.firstElement();
         
     	for(int k = 0; k < Konstanten.CORNERS_PER_FIELD; k++) {
-    		Knoten node = new Knoten(firstField);
+    		new Knoten(firstField);
     	}
         for(Feld f : felder){
-        	// Create nodes for first field
-        		// Create 6 nodes and assign each a free and unique corner id 
-        		// from the first field
-        	/*	Knoten node = new Knoten(f.getFreeCornerID())
-        		nodes.add(node);
-        		int pkNode = dbc.addNode(node);*/
-        		//save pk of node in the node object and then in the vector
         	
         	//create first ring
         //	drawHexagon(felder,nodes);
@@ -81,10 +74,10 @@ implements interfaces.Spielbrett{
 		}	                  
 	}
 	
-	/*private void drawHexagon(Vector<Feld> felder, Vector<Knoten> nodes){
+	private void drawHexagon(Vector<Feld> felder, Vector<Knoten> nodes){
 		
 		
-	}*/
+	}
 	
 	public void updateRohstoffeNachWurf(int augenZahl){
 		for(Feld feld: felder){

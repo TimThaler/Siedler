@@ -5,11 +5,9 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import enums.Rohstoff;
 import enums.Struktur;
 import interfaces.Konstanten;
 
@@ -214,8 +212,6 @@ implements interfaces.DatabaseConnector{
 			System.out.println(sql);
  			ResultSet rs = stmt.executeQuery(sql);
 
- 			ResultSetMetaData rsmd = rs.getMetaData();
- 			int columnsNumber = rsmd.getColumnCount();
  			c.commit();	
  			 
  			if(!rs.next()) {
@@ -259,8 +255,7 @@ implements interfaces.DatabaseConnector{
 				int corner_3_id = rs.getInt("corner_3_id");
 				String sqlInsert = null;
 				String tmp = null;
-				if(corner_1_id == 0)
-				{
+				if(corner_1_id == 0){
 					tmp = "corner_1_id";
 				}else if(corner_2_id == 0){
 					tmp = "corner_2_id";

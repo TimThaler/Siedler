@@ -10,18 +10,6 @@ implements interfaces.Knoten{
 	private final int primaryKey;
 	
 	private Bauwerk bauwerk;
-
-/*	public void assignToNode() {
-		if(this.isCornerUnassigned()) {
-			ConnectionPoolManager cmp = ConnectionPoolManager.getInstance();
-			DatabaseConnector dbc  = cmp.getDBCfromPool();
-			node should update itself
-			dbc.updateNode(this, this);
-			cmp.pushDBCtoPool(dbc);
-			dbc = null;
-			cmp = null;	
-		}
-	}*/
 	
 	public Knoten(Feld field){
 		ConnectionPoolManager cmp = ConnectionPoolManager.getInstance();
