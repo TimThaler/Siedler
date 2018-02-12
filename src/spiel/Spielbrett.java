@@ -81,10 +81,10 @@ implements interfaces.Spielbrett{
 		}	                  
 	}
 	
-	private void drawHexagon(Vector<Feld> felder, Vector<Knoten> nodes){
+	/*private void drawHexagon(Vector<Feld> felder, Vector<Knoten> nodes){
 		
 		
-	}
+	}*/
 	
 	public void updateRohstoffeNachWurf(int augenZahl){
 		for(Feld feld: felder){

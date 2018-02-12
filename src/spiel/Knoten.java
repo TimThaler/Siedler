@@ -4,21 +4,38 @@ import interfaces.Bauwerk;
 
 public class Knoten 
 implements interfaces.Knoten{
-	private final Corner fieldCorner1;
-	private Corner fieldCorner2;
-	private Corner fieldCorner3;
+	private final Corner corner1;
+	private Corner corner2;
+	private Corner corner3;
+	private final int primaryKey;
 	
-	public boolean bebaut;
-	public Bauwerk bauwerk;
-	
+	private Bauwerk bauwerk;
+
+/*	public void assignToNode() {
+		if(this.isCornerUnassigned()) {
+			ConnectionPoolManager cmp = ConnectionPoolManager.getInstance();
+			DatabaseConnector dbc  = cmp.getDBCfromPool();
+			node should update itself
+			dbc.updateNode(this, this);
+			cmp.pushDBCtoPool(dbc);
+			dbc = null;
+			cmp = null;	
+		}
+	}*/
 	
 	public Knoten(Feld field){
-		this.bebaut = false;
-		this.bauwerk = null;
+		ConnectionPoolManager cmp = ConnectionPoolManager.getInstance();
+		DatabaseConnector dbc  = cmp.getDBCfromPool();	
+		this.bauwerk = null;	
 		
-		fieldCorner1 = field.getFreeCorner();
+		corner1 = field.getFreeCorner();
+		System.out.println(corner1.getPrimaryKey());
+		primaryKey = dbc.addNode(this);
+		dbc.linkCornerToNode(this, corner1);
 		
-		
+		cmp.pushDBCtoPool(dbc);
+		dbc = null;
+		cmp = null;
 	}
 	
 	public boolean bebauenMoeglich(){
@@ -28,61 +45,12 @@ implements interfaces.Knoten{
 		return false;
 	}
 
+	public int getPrimaryKey() {
+		return primaryKey;
+	}
+
 	@Override
 	public Bauwerk getBauwerk() {
-		// TODO Auto-generated method stub
 		return this.bauwerk;
-	}
-
-	public Knoten getRightNeighbour() {
-		return null;
-	}
-
-	public void setRightNeighbour(Knoten rightNeighbour) {
-		//this.rightNeighbour = rightNeighbour;
-	}
-
-	public Knoten getLeftNeighbour() {
-		return null;
-	}
-
-	public void setLeftNeighbour(Knoten leftNeighbour) {
-		//this.leftNeighbour = leftNeighbour;
-	}
-
-	@Override
-	public void setEdge1(Edge edge) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setEdge2(Edge edge) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setEdge3(Edge edge) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Edge getEdge1() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Edge getEdge2() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Edge getEdge3() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

@@ -1,18 +1,19 @@
 package interfaces;
 
-import spiel.Edge;
+import spiel.Corner;
 
 public interface Knoten {
 	public boolean bebauenMoeglich();
 	public Bauwerk getBauwerk();
 	
-	public void setEdge1(Edge edge);
-	public void setEdge2(Edge edge);
-	public void setEdge3(Edge edge);
+	public int getPrimaryKey();
+	/*
+	public void setEdge2(Corner edge);
+	public void setEdge3(Corner edge);
 	
-	public Edge getEdge1();
-	public Edge getEdge2();
-	public Edge getEdge3();
+	public Corner getCorner1();
+	public Corner getEdge2();
+	public Corner getEdge3();*/
 
 
 }

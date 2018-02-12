@@ -5,6 +5,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -115,7 +116,6 @@ implements interfaces.DatabaseConnector{
 			ResultSet rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {				
 				primaryKey = rs.getInt(1);
-				System.out.println(primaryKey + " new id");
 			}		   		   
 	   }catch(Exception ex){
 		    System.err.println(ex.getClass().getName() + " " + ex.getMessage());
@@ -147,31 +147,30 @@ implements interfaces.DatabaseConnector{
 	}
 	
 	@Override
-	public void close()
-	{
-		try {								
-			if(stmt != null) stmt.close();
-			if(c != null) c.close();
-			if(rs != null) rs.close();
-			System.out.println("[***] Database Connector closed");
-		}catch(Exception e) {}
-	}
-
-	@Override
 	public int addNode(Knoten node) {
 		int primaryKey = -1;
-		//String sql = "INSERT INTO " + Struktur.EDGE + 
-			//	" (field_id, corner_1_id, corner_2_id)" +
-			//	" VALUES('" + 
-			/*	edge.getFieldId() + "', '" + 
-				edge.getEdge1Id() + "', '" +
-				edge.getEdge2Id() + "');";*/
-		//Create table nodes with fields corner id can only be used once
-		// one corner can only be connected to one node
-		// addnode with one corner
-		
-		return 0; 
-		//primaryKey;
+		String sql = "INSERT INTO " + Struktur.NODE + 
+				" (corner_1_id, corner_2_id,corner_3_id,bauwerk)" +
+				" VALUES(?,?,?,?)";	
+		try {
+			PreparedStatement pstmt = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);			
+			pstmt.setNull(1, java.sql.Types.INTEGER);
+			pstmt.setNull(2,java.sql.Types.INTEGER);
+			pstmt.setNull(3, java.sql.Types.INTEGER);
+			pstmt.setString(4,"");
+			
+			pstmt.executeUpdate();
+
+ 			ResultSet rs = pstmt.getGeneratedKeys();
+			if (rs.next()){
+				primaryKey = rs.getInt("ID");
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		    System.err.println(ex.getClass().getName() + " " + ex.getMessage());
+            System.exit(0);
+		}
+		return primaryKey;		
 	}
 	
 	@Override
@@ -186,7 +185,6 @@ implements interfaces.DatabaseConnector{
 		try {
 			c.setAutoCommit(false);	
 			stmt = c.createStatement();
-			System.out.println(sql);
  			stmt.executeUpdate(sql);
  			c.commit();	
  			
@@ -200,5 +198,98 @@ implements interfaces.DatabaseConnector{
             System.exit(0);
 		}			
 		return primaryKey;		
+	}
+
+	@Override
+	public boolean isCornerLinkedToNode(Corner corner) {
+		boolean tmp = false;
+		String sql = "SELECT * FROM NODE WHERE "
+				+ "corner_1_id = '" + corner.getPrimaryKey() + "' OR "
+				+ "corner_2_id = '" + corner.getPrimaryKey() + "' OR "
+				+ "corner_3_id = '" + corner.getPrimaryKey() + "';";
+				
+		try {
+			c.setAutoCommit(false);	
+			stmt = c.createStatement();
+			System.out.println(sql);
+ 			ResultSet rs = stmt.executeQuery(sql);
+
+ 			ResultSetMetaData rsmd = rs.getMetaData();
+ 			int columnsNumber = rsmd.getColumnCount();
+ 			c.commit();	
+ 			 
+ 			if(!rs.next()) {
+ 				tmp = true;
+ 				System.out.println(tmp + "err");
+ 				stmt.close();
+  			   c.commit();
+ 				return tmp;
+
+ 			}else {
+ 				tmp = false; 
+ 				System.out.println(tmp+ "treert");
+ 				stmt.close();
+  			   c.commit();
+ 				return tmp;
+ 			}
+
+		}catch(Exception ex){
+			ex.printStackTrace();
+		    System.err.println(ex.getClass().getName() + " " + ex.getMessage());
+            System.exit(0);
+
+    		return true;
+		}
+	}
+
+	@Override
+	public void linkCornerToNode(Knoten node, Corner corner) {
+		System.out.println("er");
+		String sqlSelect = "SELECT * FROM "
+				+ Struktur.NODE + " WHERE ID = " + node.getPrimaryKey() + ";";
+		try {
+			c.setAutoCommit(false);	
+			stmt = c.createStatement();
+ 			
+			ResultSet rs = stmt.executeQuery(sqlSelect);
+ 			
+			if (rs.next()){
+				int corner_1_id = rs.getInt("corner_1_id");
+				int corner_2_id = rs.getInt("corner_2_id");
+				int corner_3_id = rs.getInt("corner_3_id");
+				String sqlInsert = null;
+				String tmp = null;
+				if(corner_1_id == 0)
+				{
+					tmp = "corner_1_id";
+				}else if(corner_2_id == 0){
+					tmp = "corner_2_id";
+				}else if(corner_3_id == 0){
+					tmp = "corner_3_id";
+				}
+				
+				sqlInsert = "UPDATE " + Struktur.NODE + " SET "				
+						+ tmp +" = '" + corner.getPrimaryKey() + "'"																	
+						+ "WHERE ID = " + node.getPrimaryKey();
+				System.out.println(sqlInsert);
+				stmt.executeUpdate(sqlInsert);
+	 			c.commit();	
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		    System.err.println(ex.getClass().getName() + " " + ex.getMessage());
+            System.exit(0);
+		}		
+	}
+	
+	@Override
+	public void close()
+	{
+		try {								
+			if(stmt != null) stmt.close();
+			if(c != null) c.close();
+			if(rs != null) rs.close();
+			System.out.println("[***] Database Connector closed");
+		}catch(Exception e) {}
 	}
 }

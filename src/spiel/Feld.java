@@ -8,17 +8,13 @@ import interfaces.Konstanten;
 
 public class Feld 
 implements interfaces.Feld{
-	private final int pk;
+	private final int primaryKey;
 	private enums.Rohstoff rohstoff = null;
 	private int wuerfelzahl = 0;
 	private Knoten[] knoten;
 	private boolean bebaut = false;
-	private boolean vomRaeuberBesetzt = false;
+	private boolean occupiedByRobber = false;
 	private Vector<Corner> corners = new Vector<Corner>();
-	
-	public void addCorner(Corner corner) {
-		this.corners.addElement(corner);
-	}
 	
 	public Feld(int wurfelzahl, Rohstoff rohstoff){
 		this.rohstoff = rohstoff;
@@ -27,7 +23,7 @@ implements interfaces.Feld{
 		ConnectionPoolManager cmp = ConnectionPoolManager.getInstance();
 		DatabaseConnector dbc  = cmp.getDBCfromPool();
 			
-       	this.pk = dbc.addField(this);     	
+       	this.primaryKey = dbc.addField(this);     	
       
 		for(int x =0; x < Konstanten.CORNERS_PER_FIELD; x++){
     		Corner corner = new Corner(this);
@@ -54,17 +50,20 @@ implements interfaces.Feld{
 	@Override
 	public Corner getFreeCorner() {
 		for(Corner c : corners) {
-			if (c.isCornerUnassigned())
-				c.assignToNode();
-			return c;
+			if (c.isCornerUnassigned())	{	
+				System.out.println("corner  is free: " + c.getPrimaryKey());
+				return c;
 			}
+			System.out.println("no no");
+
+		}
 		return null;
 	}
 	
 	public void updateRohstoffePerBauwerk(){
-		if(!vomRaeuberBesetzt){
+		if(!occupiedByRobber){
 			for(int i = 0; i < knoten.length; i++){
-				if(knoten[i].bebaut){
+				if(knoten[i].getBauwerk().equals(null)){
 					Bauwerk bauwerk = knoten[i].getBauwerk();
 					bauwerk.getBesitzer().updateRohstoff(this.getRohstoff(),bauwerk);
 				}
@@ -72,12 +71,16 @@ implements interfaces.Feld{
 		}
 	}
 	
-	public boolean istVomRaeuberBesetzt() {
-		return vomRaeuberBesetzt;
+	public void addCorner(Corner corner) {
+		this.corners.addElement(corner);
+	}
+	
+	public boolean isOccupiedByRobber() {
+		return occupiedByRobber;
 	}
 
-	public void setVomRaeuberBesetzt(boolean vomRaeuberBesetzt) {
-		this.vomRaeuberBesetzt = vomRaeuberBesetzt;
+	public void setVomRaeuberBesetzt(boolean occupiedByRobber) {
+		this.occupiedByRobber = occupiedByRobber;
 	}
 
 	public int getFeldWuerfelNummer() {
@@ -93,6 +96,6 @@ implements interfaces.Feld{
 	}
 
 	public int getPrimaryKey() {
-		return pk;
+		return primaryKey;
 	}
 }

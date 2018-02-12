@@ -29,16 +29,18 @@ public class Corner {
 	}
 	
 	public boolean isCornerUnassigned() {
-		return false;
-		
-	}
-	
-	public void assignToNode() {
 		ConnectionPoolManager cmp = ConnectionPoolManager.getInstance();
 		DatabaseConnector dbc  = cmp.getDBCfromPool();
-		//dbc.
+		boolean tmp = false;
+		if (dbc.isCornerLinkedToNode(this)){
+			tmp = true; 
+		}else {
+			tmp = false;
+		}
 		cmp.pushDBCtoPool(dbc);
 		dbc = null;
 		cmp = null;	
+		
+		return tmp;		
 	}
 }
